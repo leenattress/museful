@@ -1,0 +1,10 @@
+{
+  "title": "Project Musings",
+  "theme": "simplest",
+  "articlesPerPage": 32,
+  "themeData": {
+    "headerOverlayColour": "rgba(59, 48, 84, 0.6)"
+  },
+  "output": "musings/dist",
+  "input": "musings/src"
+}
