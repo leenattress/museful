@@ -11,7 +11,7 @@
     Media
   } from "sveltestrap";
 
-  import "bootstrap/dist/css/bootstrap.min.css";
+    import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
 
   let source = `
 ## What I'm working on

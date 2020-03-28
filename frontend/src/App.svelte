@@ -35,7 +35,10 @@
 </script>
 
 <Navbar color="dark" dark expand="md">
-  <NavbarBrand href="/">museful</NavbarBrand>
+  <NavbarBrand href="/">
+  <img src="museful-logo.png" width="32" height="32" class="d-inline-block align-top" alt="">
+  <span class="ml-2">museful</span>
+  </NavbarBrand>
   <NavbarToggler on:click={() => (isOpen = !isOpen)} />
   <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
     <Nav class="ml-auto" navbar>
@@ -43,7 +46,7 @@
         <NavLink href="/#/new">Create</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/#/read">Read</NavLink>
+        <NavLink href="/#/read                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ">Read</NavLink>
       </NavItem>
       <NavItem>
         <NavLink href="https://github.com/leenattress/museful">GitHub</NavLink>

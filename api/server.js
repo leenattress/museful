@@ -24,17 +24,17 @@ app.use(function(req, res, next) {
 // Shared function to get meta-data
 // a helper function to get meta-data from markdown files
 function getMeta(contents, meta) {
-    var regStr = `\\[meta-${meta}\\]: <>\\s\\(*(.+)\\)\\s*`;
-    var reg = new RegExp(regStr);
-    const stringReturn = (contents.match(reg) || []).map(e =>
-      e.replace(reg, "$1")
-    );
-    if (stringReturn[0]) {
-      return stringReturn[0];
-    } else {
-      return null;
-    }
+  var regStr = `\\[meta-${meta}\\]: <>\\s\\(*(.+)\\)\\s*`;
+  var reg = new RegExp(regStr);
+  const stringReturn = (contents.match(reg) || []).map(e =>
+    e.replace(reg, "$1")
+  );
+  if (stringReturn[0]) {
+    return stringReturn[0];
+  } else {
+    return null;
   }
+}
 
 // _POST to create
 async function createMusing(body) {
@@ -51,29 +51,86 @@ async function listMusings(params) {
   const musingFolder = `${process.cwd()}/musings/src`;
 
   const files = fs
-  .readdirSync(musingFolder)
-  .filter(file => 
-    (file.indexOf('.') !== 0) && 
-    (file !== musingFolder) && 
-    (file !== 'index.md') && 
-    (file !== '404.md') && 
-    (file.slice(-3) === '.md')
+    .readdirSync(musingFolder)
+    .filter(
+      file =>
+        file.indexOf(".") !== 0 &&
+        file !== musingFolder &&
+        file !== "index.md" &&
+        file !== "404.md" &&
+        file.slice(-3) === ".md"
     )
-  .sort()
-  .reverse()
-  .map((file) => {
-      const content = fs.readFileSync(musingFolder + '/' + file, 'utf8');
-      const user = getMeta(content, 'user');
-      const branch = getMeta(content, 'branch');
-      const created = getMeta(content, 'date');
-    return { file, user, created, branch, content };
-  });
+    .sort()
+    .reverse()
+    .map(file => {
+      const content = fs.readFileSync(musingFolder + "/" + file, "utf8");
+      const user = getMeta(content, "user");
+      const branch = getMeta(content, "branch");
+      const created = getMeta(content, "date");
+      return { file, user, created, branch, content };
+    });
 
   return files;
 }
 app.get("/musings", async function(req, res) {
   const musings = await listMusings(req.query);
   res.json({ status: "ok", files: musings });
+});
+
+
+
+
+// _GET to list
+async function getMusingsFromTimestamp(timestamp) {
+  const path = require('path');
+  let musingFolder = `${process.cwd()}/musings/src`;
+  musingFolder = path.normalize(musingFolder); //that's that
+
+  var glob = require("glob")
+  var options = {};
+  const files = await glob.sync(`${musingFolder}/${timestamp}-*.md`, options);
+  return files;
+}
+async function getSingleMusing(timestamp) {
+  const matchingMusings = await getMusingsFromTimestamp(timestamp);
+  console.log('FUNC', matchingMusings)
+  if (matchingMusings && matchingMusings[0]) {
+    const content = fs.readFileSync(matchingMusings[0], "utf8");
+    const user = getMeta(content, "user");
+    const branch = getMeta(content, "branch");
+    const created = getMeta(content, "date");
+    return { user, created, branch, content };
+  } else {
+    return null;
+  }
+}
+app.get("/musings/:timestamp", async function(req, res) {
+  const musing = await getSingleMusing(req.params.timestamp);
+  console.log(req.params.timestamp, musing)
+  if (musing) {
+    res.json({ status: "ok", musing });
+  } else {
+    res.status(404).send({ status: "heck", error: "not found" });
+  }
+});
+
+
+
+
+
+app.get("/commits", async function(req, res) {
+  const gitlog = require("gitlog"); //https://www.npmjs.com/package/gitlog
+
+  const options = {
+    repo: process.cwd(),
+    number: 20,
+    // , author: 'Gabriel Crowe'
+    fields: ["hash", "abbrevHash", "subject", "authorName", "authorDateRel"],
+    execOptions: { maxBuffer: 1000 * 1024 }
+  };
+
+  const commits = gitlog(options);
+  res.json({ status: "ok", commits });
 });
 
 // local debug
