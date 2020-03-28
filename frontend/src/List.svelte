@@ -48,7 +48,7 @@
 
 <Container>
   <Row>
-    <Col xs="12">
+    <!-- <Col xs="12">
       <nav aria-label="breadcrumb" class="mt-2">
         <ol class="breadcrumb bg-dark ">
           <li class="breadcrumb-item ">
@@ -59,7 +59,7 @@
           </li>
         </ol>
       </nav>
-    </Col>
+    </Col> -->
 
     <Col class="col-md-12">
 
@@ -77,18 +77,18 @@
             {#if value.files}
               {#each value.files as musing}
                 <li class="pb-5">
-                  <div class="float-right text-primary text-right">
-                    
-                    <div>Branch: <span class="text-secondary">{musing.branch}</span></div>
-                    <div>Commit: <span class="text-secondary">{musing.commit}</span></div>
+                  <div class="text-left text-secondary mb-4 p-3 bg-dark rounded">
+                    <div>
+                      <a href="/#/edit/{musing.id}" class="text-light">{musing.file}</a>
+                    </div>                  
+                    <strong class="text-white">{musing.user}</strong> 
+                    on branch <strong class="text-white">{musing.branch}</strong> 
+                    at commit <strong class="text-white">{musing.commit}</strong>
+                    <div class="lead">{prettyDate(musing.created)}</div>
                   </div>
                   <div class="md-html">
-                  <div class="text-secondary">{musing.file}</div>
                     {@html marked(musing.content)}
                   </div>
-                  <span class="text-primary">
-                    {prettyDate(musing.created)} by {musing.user}
-                  </span>
                 </li>
               {/each}
             {/if}

@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Shared function to get meta-data
+// commitred function to get meta-data
 // a helper function to get meta-data from markdown files
 function getMeta(contents, meta) {
   var regStr = `\\[meta-${meta}\\]: <>\\s\\(*(.+)\\)\\s*`;
@@ -50,6 +50,18 @@ async function rightPlace() {
   );
 }
 
+// _GET to list
+async function getMusingsFromTimestamp(timestamp) {
+  const path = require("path");
+  let musingFolder = `${process.cwd()}/musings/src`;
+  musingFolder = path.normalize(musingFolder); //that's that
+
+  var glob = require("glob");
+  var options = {};
+  const files = await glob.sync(`${musingFolder}/${timestamp}-*.md`, options);
+  return files;
+}
+
 // _POST to create
 async function createMusing(body) {
   const musingFolder = `${process.cwd()}/musings/src/`;
@@ -59,7 +71,7 @@ async function createMusing(body) {
 [meta-date]: <> (${new Date().toISOString()})
 [meta-title]: <> (${body.title})
 [meta-branch]: <> (${git.branch})
-[meta-sha]: <> (${git.abbreviatedSha ? git.abbreviatedSha : "none"})
+[meta-commit]: <> (${git.abbreviatedcommit ? git.abbreviatedcommit : "none"})
 [meta-user]: <> (${userName()})
 
 # ${body.title}
@@ -94,6 +106,19 @@ app.post("/musings", async function(req, res) {
   }
 });
 
+app.put("/musings/:id", async function(req, res) {
+  try {
+    if (req.body.title && req.body.content) {
+      const id = await updateMusing(req.body);
+      res.json({ status: "ok", id });
+    } else {
+      throw "title and content are required";
+    }
+  } catch (error) {
+    res.status(500).send({ status: "heck", error });
+  }
+});
+
 // _GET to list
 async function listMusings(params) {
   const musingFolder = `${process.cwd()}/musings/src`;
@@ -115,8 +140,9 @@ async function listMusings(params) {
       const user = getMeta(content, "user");
       const branch = getMeta(content, "branch");
       const created = getMeta(content, "date");
-      const commit = getMeta(content, "sha");
-      return { file, user, created, branch, content };
+      const commit = getMeta(content, "commit");
+      const id = file.substring(0, file.indexOf("-"));
+      return { id, file, user, created, branch, content, commit };
     });
 
   return files;
@@ -132,17 +158,7 @@ app.get("/musings", async function(req, res) {
   }
 });
 
-// _GET to list
-async function getMusingsFromTimestamp(timestamp) {
-  const path = require("path");
-  let musingFolder = `${process.cwd()}/musings/src`;
-  musingFolder = path.normalize(musingFolder); //that's that
 
-  var glob = require("glob");
-  var options = {};
-  const files = await glob.sync(`${musingFolder}/${timestamp}-*.md`, options);
-  return files;
-}
 async function getSingleMusing(timestamp) {
   const matchingMusings = await getMusingsFromTimestamp(timestamp);
   console.log("FUNC", matchingMusings);
@@ -151,7 +167,9 @@ async function getSingleMusing(timestamp) {
     const user = getMeta(content, "user");
     const branch = getMeta(content, "branch");
     const created = getMeta(content, "date");
-    return { user, created, branch, content };
+    const commit = getMeta(content, "commit");
+    const id = timestamp;
+    return { id, user, created, branch, content, commit  };
   } else {
     return null;
   }

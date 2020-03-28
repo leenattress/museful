@@ -1,6 +1,6 @@
 <script>
   export let params = {};
-	import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import marked from "marked";
   import {
     Button,
@@ -15,6 +15,7 @@
 
   let title = ``;
   let source = ``;
+  let id;
   $: markdown = marked(source);
 
   async function getMarkdown(id) {
@@ -24,13 +25,14 @@
 
   const handleClick = () => {};
 
-	onMount(async () => {
+  onMount(async () => {
     if (params && params.id) {
       const markdownReturn = await getMarkdown(params.id);
-      console.log('🎈', markdownReturn)
+      console.log("🎈", markdownReturn);
       source = markdownReturn.musing.content;
+      id = markdownReturn.musing.id;
     }
-	});  
+  });
 </script>
 
 <style>
@@ -53,17 +55,18 @@
   <Row>
 
     <Col>
-      <div class="form-group pt-2">
-        <label for="markdownTitle">Title</label>
-        <input
-          type="text"
-          bind:value={title}
-          class="form-control"
-          id="markdownTitle"
-          placeholder="Type a title here" />
-      </div>
-      <div class="form-group pt-0">
-      {params.id}
+      {#if id}
+        <div class="form-group pt-2">
+          <label for="markdownTitle">Title</label>
+          <input
+            type="text"
+            bind:value={title}
+            class="form-control"
+            id="markdownTitle"
+            placeholder="Type a title here" />
+        </div>
+      {/if}
+      <div class="form-group pt-4">
         <textarea bind:value={source} class="form-control source" />
       </div>
     </Col>

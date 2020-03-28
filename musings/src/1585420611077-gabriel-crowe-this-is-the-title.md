@@ -1,7 +1,7 @@
 [meta-date]: <> (2020-03-28T18:36:51.077Z)
 [meta-title]: <> (this is the title)
 [meta-branch]: <> (master)
-[meta-sha]: <> (e8b72ed721)
+[meta-commit]: <> (e8b72ed721)
 [meta-user]: <> (Gabriel Crowe)
 
 # this is the title
