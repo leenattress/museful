@@ -29,7 +29,7 @@
   const routes = {
     "/": List,
     "/new": Edit,
-    "/read/:id": Edit,
+    "/edit/:id": Edit,
     "*": NotFound
   };
 </script>

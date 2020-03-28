@@ -58,20 +58,10 @@
             Musings
           </li>
         </ol>
-
       </nav>
-
-      <!-- <Breadcrumb class="bg-dark">
-        <BreadcrumbItem>
-          <a href="/#/">museful</a>
-        </BreadcrumbItem>
-        <BreadcrumbItem active>Latest Musings</BreadcrumbItem>
-      </Breadcrumb> -->
-
     </Col>
 
     <Col class="col-md-12">
-      <!-- col-md-6 offset-md-3 -->
 
       <ul class="timeline">
 
@@ -86,13 +76,19 @@
 
             {#if value.files}
               {#each value.files as musing}
-                <li>
-                  <span class="float-right text-primary">
-                    {prettyDate(musing.created)} by {musing.user}
-                  </span>
+                <li class="pb-5">
+                  <div class="float-right text-primary text-right">
+                    
+                    <div>Branch: <span class="text-secondary">{musing.branch}</span></div>
+                    <div>Commit: <span class="text-secondary">{musing.commit}</span></div>
+                  </div>
                   <div class="md-html">
+                  <div class="text-secondary">{musing.file}</div>
                     {@html marked(musing.content)}
                   </div>
+                  <span class="text-primary">
+                    {prettyDate(musing.created)} by {musing.user}
+                  </span>
                 </li>
               {/each}
             {/if}

@@ -1,6 +1,7 @@
 <script>
+  export let params = {};
+	import { onMount } from 'svelte';
   import marked from "marked";
-
   import {
     Button,
     Col,
@@ -10,33 +11,26 @@
     BreadcrumbItem,
     Media
   } from "sveltestrap";
+  import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
 
-    import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
-
-  let source = `
-## What I'm working on
-What part of the code are you working on now?
-
-## I've solved a problem
-What problem have you just solved?
-
-## Here are some examples
-Are there any code snippets you're particularly proud of?
-
-## Lessons learned
-What have you learned, what can you teach others?
-
-## Further teachings
-Where can I go to learn more about this?
-
-
-`;
+  let title = ``;
+  let source = ``;
   $: markdown = marked(source);
 
+  async function getMarkdown(id) {
+    let response = await fetch(`/musings/${id}`);
+    return await response.json();
+  }
 
-  const handleClick = () => alert('I warned you!');
+  const handleClick = () => {};
 
-
+	onMount(async () => {
+    if (params && params.id) {
+      const markdownReturn = await getMarkdown(params.id);
+      console.log('🎈', markdownReturn)
+      source = markdownReturn.musing.content;
+    }
+	});  
 </script>
 
 <style>
@@ -44,39 +38,50 @@ Where can I go to learn more about this?
     border: none;
     width: 100%;
     height: 100%;
-    background: #343a40;
-    color: #fff;
     min-height: 800px;
-    padding: 1em 2em;
   }
   .source:focus {
     outline: none;
   }
   .output {
     width: 100%;
-    padding: 1em 2em;
   }
 </style>
 
-<!-- <Container> -->
+<Container>
 
-<Row>
+  <Row>
 
-  <Col>
-    <textarea bind:value={source} class="source" />
-  </Col>
+    <Col>
+      <div class="form-group pt-2">
+        <label for="markdownTitle">Title</label>
+        <input
+          type="text"
+          bind:value={title}
+          class="form-control"
+          id="markdownTitle"
+          placeholder="Type a title here" />
+      </div>
+      <div class="form-group pt-0">
+      {params.id}
+        <textarea bind:value={source} class="form-control source" />
+      </div>
+    </Col>
 
-  <Col>
-    <div class="output">
-      {@html markdown}
-    </div>
-  </Col>
-  
+    <Col>
+      <div class="output pt-4">
+        <h1>{title}</h1>
+        {@html markdown}
+      </div>
+    </Col>
+
     <Col xs="12">
 
-		<Button class="float-right" color="primary" on:click={handleClick}>Save</Button>
+      <Button class="float-right" color="primary" on:click={handleClick}>
+        Save
+      </Button>
 
-	</Col>
+    </Col>
 
-</Row>
-<!-- </Container> -->
+  </Row>
+</Container>
