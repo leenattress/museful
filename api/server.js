@@ -71,14 +71,12 @@ async function createMusing(body) {
   const musingFolder = `${process.cwd()}/musings/src/`;
   const timeNow = Date.now();
 
+  const actualCommit = git.abbreviatedcommit ? git.abbreviatedcommit : 'no-commit'
   const markdownContent = `
 [meta-date]: <> (${new Date().toISOString()})
-[meta-title]: <> (${body.title})
 [meta-branch]: <> (${git.branch})
 [meta-commit]: <> (${git.abbreviatedcommit ? git.abbreviatedcommit : "none"})
 [meta-user]: <> (${userName()})
-
-# ${body.title}
 
 `;
 
@@ -87,7 +85,7 @@ async function createMusing(body) {
       musingFolder +
       timeNow +
       "-" +
-      slugify(userName() + "-" + body.title, {
+      slugify(userName() + "-" + git.branch + "-" + actualCommit, {
         replacement: "-", // replace spaces with replacement character, defaults to `-`
         lower: true // convert to lower case, defaults to `false`
       }) +
@@ -99,12 +97,12 @@ async function createMusing(body) {
 }
 app.post("/musings", async function(req, res) {
   try {
-    if (req.body.title && req.body.content) {
+    if (req.body.content) {
       const id = await createMusing(req.body);
       clog('we created a musing with id ' + id)
       res.json({ status: "ok", id });
     } else {
-      throw "title and content are required";
+      throw "content required";
     }
   } catch (error) {
     res.status(500).send({ status: "heck", error });
@@ -114,12 +112,12 @@ app.post("/musings", async function(req, res) {
 app.put("/musings/:id", async function(req, res) {
     try {
 
-    if (req.body.title && req.body.content) {
+    if (req.body.content) {
       const id = await updateMusing(req.body);
       clog('we updated a musing with id ' + id)      
       res.json({ status: "ok", id });
     } else {
-      throw "title and content are required";
+      throw "content required";
     }
   } catch (error) {
     res.status(500).send({ status: "heck", error });

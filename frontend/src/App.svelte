@@ -1,6 +1,7 @@
 <script>
   import List from "./List.svelte";
   import Edit from "./Edit.svelte";
+  import Help from "./Help.svelte";
   import NotFound from "./NotFound.svelte";
   import Router from "svelte-spa-router";
   import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
@@ -27,7 +28,8 @@
 
   const routes = {
     "/": List,
-    "/new": Edit,
+    "/create": Edit,
+    "/help": Help,
     "/edit/:id": Edit,
     "*": NotFound
   };
@@ -52,29 +54,6 @@ body {
   background-color: #2c3238;
 }
 </style>
-
-<Navbar color="dark" dark expand="md">
-  <NavbarBrand href="/">
-    <img
-      src="museful-logo.png"
-      width="32"
-      height="32"
-      class="d-inline-block align-top"
-      alt="" />
-    <span class="ml-2">museful</span>
-  </NavbarBrand>
-  <NavbarToggler on:click={() => (isOpen = !isOpen)} />
-  <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
-    <Nav class="ml-auto" navbar>
-      <NavItem>
-        <NavLink href="/#/new">Create</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink href="/#/">Read</NavLink>
-      </NavItem>
-    </Nav>
-  </Collapse>
-</Navbar>
 
 <Router {routes} />
 

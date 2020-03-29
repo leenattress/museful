@@ -17,6 +17,9 @@
   let title = ``;
   let source = ``;
   let id;
+
+  let preview = false;
+
   $: markdown = marked(source);
 
   async function getMarkdown(id) {
@@ -39,7 +42,7 @@
     const obj = await response.json();
     console.log("🎈", obj);
     //push(`/edit/${obj.id}`);
-    push('/');
+    push("/");
     // return await response.json();
   }
 
@@ -74,36 +77,94 @@
 <Container>
 
   <Row>
+    <Col xs="12 mt-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-dark">
+          <li class="breadcrumb-item">
+            <a href="/#/">
+              <img
+                src="museful-logo.png"
+                width="28"
+                height="28"
+                class="d-inline-block align-top"
+                alt="" />
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">create</li>
+          <!-- <li class="ml-auto">
+            <button class="btn btn-secondary btn-sm">
+
+              <img
+                src="question.svg"
+                width="16"
+                height="16"
+                class="d-inline-block align-top text-light"
+                alt="" />
+              Help
+            </button>
+          </li> -->
+        </ol>
+
+      </nav>
+
+    </Col>
+  </Row>
+
+  <Row>
 
     <Col>
-      {#if !id}
+      <!-- {#if !id}
         <div class="form-group pt-2">
-          <label for="markdownTitle">Title</label>
           <input
             type="text"
             bind:value={title}
             class="form-control"
             id="markdownTitle"
-            placeholder="Type a title here" />
+            placeholder="What do you want to tell people about?" />
         </div>
-      {/if}
-      <div class="form-group pt-4">
-        <textarea bind:value={source} class="form-control source" />
+      {/if} -->
+      <div class="form-group pt-1 mt-0">
+        <textarea
+          placeholder="Your thoughts go here, you can use markdown."
+          bind:value={source}
+          class="form-control source" />
       </div>
     </Col>
 
-    <Col>
-      <div class="output pt-4">
-        <h1>{title}</h1>
-        {@html markdown}
-      </div>
-    </Col>
+    {#if preview}
+      <Col>
+        <div class="output pt-4">
+          {@html markdown}
+        </div>
+      </Col>
+    {/if}
+
+    <Col xs="12 mb-3">
+      <p class="p-0 m-0 text-muted text-right">
+        <small>
+          This will create a markdown file in
+          <code>./musings/src/_____.md</code>
+          to be later read or edited.<br>
+          These thoughts are then part of your project source.
+        </small>
+      </p>
+    </Col>    
 
     <Col xs="12">
 
-      <Button class="float-right" color="primary" on:click={handleClick}>
-        Save
-      </Button>
+      {#if !id}
+        <Button
+          class="btn-lg float-right"
+          color="secondary"
+          on:click={handleClick}>
+          <span class="font-weight-bold">Save to timeline</span>
+        </Button>
+      {/if}
+      {#if id}
+        <Button class="float-right" color="secondary" on:click={handleClick}>
+          Update
+        </Button>
+      {/if}
 
     </Col>
 

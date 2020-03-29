@@ -13,12 +13,25 @@
 
   import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
   let result;
+  let commits;
 
   async function getResult() {
     let response = await fetch(`http://localhost:3000/musings`, {
       method: "GET"
     });
     return await response.json();
+  }
+
+  async function getCommits() {
+    let response = await fetch(`http://localhost:3000/commits`, {
+      method: "GET"
+    });
+    return await response.json();
+  }
+
+  function clean(invalid) {
+    var container = document.createElement("div");
+    return (container.innerHTML = invalid), container.innerHTML;
   }
 
   // Takes an ISO time and returns a string representing how
@@ -44,9 +57,59 @@
   }
 
   result = getResult();
+  commits = getCommits();
 </script>
 
 <Container>
+
+  <Row>
+    <Col xs="12 mt-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-dark">
+          <li class="breadcrumb-item">
+            <a href="/#/">
+              <img
+                src="museful-logo.png"
+                width="28"
+                height="28"
+                class="d-inline-block align-top"
+                alt="" />
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">timeline</li>
+          <li class="ml-auto">
+            <a class="btn btn-secondary btn-sm" href="/#/create">create</a>
+          </li>
+        </ol>
+      </nav>
+    </Col>
+  </Row>
+  <!-- <Row>
+    <Col>
+      {#if commits === undefined}
+        <p />
+      {:else}
+        {#await commits}
+
+          <p>Loading...</p>
+
+        {:then value}
+
+          {#if value.commits}
+            <ul class="list-group">
+              {#each value.commits as commit}
+                <li class="list-group-item"><code>{commit.abbrevHash}</code>: {commit.subject}</li>
+              {/each}
+            </ul>
+          {/if}
+
+        {:catch error}
+          {error.message}
+        {/await}
+      {/if}
+    </Col>
+  </Row> -->
+
   <Row>
     <!-- <Col xs="12">
       <nav aria-label="breadcrumb" class="mt-2">
@@ -77,17 +140,22 @@
             {#if value.files}
               {#each value.files as musing}
                 <li class="pb-5">
-                  <div class="text-left text-secondary mb-4 p-3 bg-dark rounded">
-                    <div>
-                      <a href="/#/edit/{musing.id}" class="text-light">{musing.file}</a>
-                    </div>                  
-                    <strong class="text-white">{musing.user}</strong> 
-                    on branch <strong class="text-white">{musing.branch}</strong> 
-                    at commit <strong class="text-white">{musing.commit}</strong>
+                  <div
+                    class="text-left text-secondary mb-4 p-3 bg-dark rounded">
+                    <button
+                      href="/#/edit/{musing.id}"
+                      class="btn btn-secondary btn-sm float-right">
+                      edit
+                    </button>
+                    <strong class="text-white">{musing.user}</strong>
+                    on branch
+                    <strong class="text-white">{musing.branch}</strong>
+                    at commit
+                    <strong class="text-white">{musing.commit}</strong>
                     <div class="lead">{prettyDate(musing.created)}</div>
                   </div>
                   <div class="md-html">
-                    {@html marked(musing.content)}
+                    {@html clean(marked(musing.content))}
                   </div>
                 </li>
               {/each}
