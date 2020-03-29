@@ -27,6 +27,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+function clog(msg) {
+  var currentDate = '[' + new Date().toUTCString() + ']: ';
+  console.log('🐔', currentDate , msg);
+}
 // commitred function to get meta-data
 // a helper function to get meta-data from markdown files
 function getMeta(contents, meta) {
@@ -97,6 +101,7 @@ app.post("/musings", async function(req, res) {
   try {
     if (req.body.title && req.body.content) {
       const id = await createMusing(req.body);
+      clog('we created a musing with id ' + id)
       res.json({ status: "ok", id });
     } else {
       throw "title and content are required";
@@ -107,9 +112,11 @@ app.post("/musings", async function(req, res) {
 });
 
 app.put("/musings/:id", async function(req, res) {
-  try {
+    try {
+
     if (req.body.title && req.body.content) {
       const id = await updateMusing(req.body);
+      clog('we updated a musing with id ' + id)      
       res.json({ status: "ok", id });
     } else {
       throw "title and content are required";
@@ -150,6 +157,7 @@ async function listMusings(params) {
 app.get("/musings", async function(req, res) {
   if (rightPlace()) {
     const musings = await listMusings(req.query);
+    clog('we loaded ' + musings.length + ' musings')
     res.json({ status: "ok", files: musings });
   } else {
     res
@@ -161,7 +169,6 @@ app.get("/musings", async function(req, res) {
 
 async function getSingleMusing(timestamp) {
   const matchingMusings = await getMusingsFromTimestamp(timestamp);
-  console.log("FUNC", matchingMusings);
   if (matchingMusings && matchingMusings[0]) {
     const content = fs.readFileSync(matchingMusings[0], "utf8");
     const user = getMeta(content, "user");
@@ -177,8 +184,8 @@ async function getSingleMusing(timestamp) {
 app.get("/musings/:timestamp", async function(req, res) {
   if (rightPlace()) {
     const musing = await getSingleMusing(req.params.timestamp);
-    console.log(req.params.timestamp, musing);
     if (musing) {
+      clog('we loaded a musing with id ' + req.params.timestamp)
       res.json({ status: "ok", musing });
     } else {
       res.status(404).send({ status: "heck", error: "not found" });
@@ -202,6 +209,8 @@ app.get("/commits", async function(req, res) {
       execOptions: { maxBuffer: 1000 * 1024 }
     };
 
+    clog('commits requested')
+
     const commits = gitlog(options);
     res.json({ status: "ok", commits });
   } else {
@@ -220,6 +229,7 @@ async function readPackageJson() {
 app.get("/package", async function(req, res) {
   if (rightPlace()) {
     try {
+      clog('package requested')
       res.json({ status: "ok", package: await readPackageJson() });
     } catch (error) {
       res.status(500).send({ status: "heck", error });

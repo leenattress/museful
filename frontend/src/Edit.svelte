@@ -12,6 +12,7 @@
     Media
   } from "sveltestrap";
   import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
+  import { push } from "svelte-spa-router";
 
   let title = ``;
   let source = ``;
@@ -23,12 +24,32 @@
     return await response.json();
   }
 
-  const handleClick = () => {};
+  async function createMusing() {
+    let response = await fetch(`http://localhost:3000/musings`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        content: source,
+        title: title
+      })
+    });
+    const obj = await response.json();
+    console.log("🎈", obj);
+    //push(`/edit/${obj.id}`);
+    push('/');
+    // return await response.json();
+  }
+
+  const handleClick = () => {
+    createMusing();
+  };
 
   onMount(async () => {
     if (params && params.id) {
       const markdownReturn = await getMarkdown(params.id);
-      console.log("🎈", markdownReturn);
       source = markdownReturn.musing.content;
       id = markdownReturn.musing.id;
     }
@@ -40,7 +61,7 @@
     border: none;
     width: 100%;
     height: 100%;
-    min-height: 800px;
+    min-height: 500px;
   }
   .source:focus {
     outline: none;
@@ -55,7 +76,7 @@
   <Row>
 
     <Col>
-      {#if id}
+      {#if !id}
         <div class="form-group pt-2">
           <label for="markdownTitle">Title</label>
           <input
