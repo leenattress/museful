@@ -4,7 +4,7 @@
 [meta-commit]: <> (e8b72ed721)
 [meta-user]: <> (Gabriel Crowe)
 
-# this is the title
+# this is the title of the thing!
 
 - Branch: master
 - Commit: e8b72ed721
@@ -15,7 +15,7 @@ I'm working on the API of museful.
 ## I've solved a problem
 Reading and creating markdown files in nodejs.
 
-```js
+```javascript
 app.post("/musings", async function(req, res) {
   try {
     if (req.body.title && req.body.content) {

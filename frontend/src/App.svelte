@@ -4,7 +4,7 @@
   import Help from "./Help.svelte";
   import NotFound from "./NotFound.svelte";
   import Router from "svelte-spa-router";
-  import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
+  import "./bootstrap.min.css";
 
   import {
     Collapse,

@@ -11,7 +11,6 @@
     Media
   } from "sveltestrap";
 
-  import "@forevolve/bootstrap-dark/dist/css/bootstrap-dark.min.css";
   let result;
   let commits;
 
@@ -57,7 +56,7 @@
   }
 
   result = getResult();
-  commits = getCommits();
+  // commits = getCommits();
 
   $: timeline = () => {
     
@@ -115,18 +114,6 @@
   </Row> -->
 
   <Row>
-    <!-- <Col xs="12">
-      <nav aria-label="breadcrumb" class="mt-2">
-        <ol class="breadcrumb bg-dark ">
-          <li class="breadcrumb-item ">
-            <a href="/#/" class="text-light">museful</a>
-          </li>
-          <li class="breadcrumb-item text-light active" aria-current="page">
-            Musings
-          </li>
-        </ol>
-      </nav>
-    </Col> -->
 
     <Col class="col-md-12">
 
