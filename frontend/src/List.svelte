@@ -145,7 +145,7 @@
                     <strong class="text-white">{musing.commit}</strong>
                     <div class="lead">{prettyDate(musing.created)}</div>
                   </div>
-                  <div class="md-html">
+                  <div class="md-html text-light">
                     {@html clean(marked(musing.content))}
                   </div>
                 </li>

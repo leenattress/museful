@@ -296,7 +296,7 @@
 
     {#if preview}
       <Col>
-        <div class="p-4 pt-1 mt-0 slide-in-right text-dark bg-light">
+        <div class="output p-4 pt-1 mt-0 slide-in-right text-dark bg-light">
           {@html markdown}
         </div>
       </Col>
