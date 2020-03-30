@@ -28,8 +28,8 @@ app.use(function(req, res, next) {
 });
 
 function clog(msg) {
-  var currentDate = '[' + new Date().toUTCString() + ']: ';
-  console.log('🐔', currentDate , msg);
+  var currentDate = "[" + new Date().toUTCString() + "]: ";
+  console.log("🐔", currentDate, msg);
 }
 // commitred function to get meta-data
 // a helper function to get meta-data from markdown files
@@ -71,7 +71,9 @@ async function createMusing(body) {
   const musingFolder = `${process.cwd()}/musings/src/`;
   const timeNow = Date.now();
 
-  const actualCommit = git.abbreviatedcommit ? git.abbreviatedcommit : 'no-commit'
+  const actualCommit = git.abbreviatedcommit
+    ? git.abbreviatedcommit
+    : "no-commit";
   const markdownContent = `
 [meta-date]: <> (${new Date().toISOString()})
 [meta-branch]: <> (${git.branch})
@@ -99,7 +101,7 @@ app.post("/musings", async function(req, res) {
   try {
     if (req.body.content) {
       const id = await createMusing(req.body);
-      clog('we created a musing with id ' + id)
+      clog("→ created musing " + id);
       res.json({ status: "ok", id });
     } else {
       throw "content required";
@@ -109,15 +111,27 @@ app.post("/musings", async function(req, res) {
   }
 });
 
-app.put("/musings/:id", async function(req, res) {
-    try {
+// _PUT to update
+async function updateMusing(id, body) {
+  //const musingFolder = `${process.cwd()}/musings/src/`;
+  const matchingMusings = await getMusingsFromTimestamp(id);
 
-    if (req.body.content) {
-      const id = await updateMusing(req.body);
-      clog('we updated a musing with id ' + id)      
+  if (matchingMusings && matchingMusings[0]) {
+    saveFileName = matchingMusings[0];
+  }
+
+  // return await markdown.file.create(body);
+  await fs.writeFile(saveFileName, body.content);
+  return timeNow;
+}
+app.put("/musings", async function(req, res) {
+  try {
+    if (req.body.content && req.body.id && req.body.id !== '') {
+      clog("→ update musing " + req.body.id);
+      await updateMusing(req.body.id, req.body);
       res.json({ status: "ok", id });
     } else {
-      throw "content required";
+      throw "content and id required";
     }
   } catch (error) {
     res.status(500).send({ status: "heck", error });
@@ -155,7 +169,7 @@ async function listMusings(params) {
 app.get("/musings", async function(req, res) {
   if (rightPlace()) {
     const musings = await listMusings(req.query);
-    clog('we loaded ' + musings.length + ' musings')
+    clog("← get " + musings.length + " musings");
     res.json({ status: "ok", files: musings });
   } else {
     res
@@ -163,7 +177,6 @@ app.get("/musings", async function(req, res) {
       .send({ status: "heck", error: "museful was not run from project root" });
   }
 });
-
 
 async function getSingleMusing(timestamp) {
   const matchingMusings = await getMusingsFromTimestamp(timestamp);
@@ -174,7 +187,7 @@ async function getSingleMusing(timestamp) {
     const created = getMeta(content, "date");
     const commit = getMeta(content, "commit");
     const id = timestamp;
-    return { id, user, created, branch, content, commit  };
+    return { id, user, created, branch, content, commit };
   } else {
     return null;
   }
@@ -183,7 +196,7 @@ app.get("/musings/:timestamp", async function(req, res) {
   if (rightPlace()) {
     const musing = await getSingleMusing(req.params.timestamp);
     if (musing) {
-      clog('we loaded a musing with id ' + req.params.timestamp)
+      clog("← get musing " + req.params.timestamp);
       res.json({ status: "ok", musing });
     } else {
       res.status(404).send({ status: "heck", error: "not found" });
@@ -207,7 +220,7 @@ app.get("/commits", async function(req, res) {
       execOptions: { maxBuffer: 1000 * 1024 }
     };
 
-    clog('commits requested')
+    clog("← commits requested");
 
     const commits = gitlog(options);
     res.json({ status: "ok", commits });
@@ -227,7 +240,7 @@ async function readPackageJson() {
 app.get("/package", async function(req, res) {
   if (rightPlace()) {
     try {
-      clog('package requested')
+      clog("← package requested");
       res.json({ status: "ok", package: await readPackageJson() });
     } catch (error) {
       res.status(500).send({ status: "heck", error });

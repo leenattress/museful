@@ -58,6 +58,10 @@
 
   result = getResult();
   commits = getCommits();
+
+  $: timeline = () => {
+    
+  }
 </script>
 
 <Container>
@@ -142,11 +146,11 @@
                 <li class="pb-5">
                   <div
                     class="text-left text-secondary mb-4 p-3 bg-dark rounded">
-                    <button
+                    <a
                       href="/#/edit/{musing.id}"
                       class="btn btn-secondary btn-sm float-right">
                       edit
-                    </button>
+                    </a>
                     <strong class="text-white">{musing.user}</strong>
                     on branch
                     <strong class="text-white">{musing.branch}</strong>
