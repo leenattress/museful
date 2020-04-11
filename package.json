@@ -19,6 +19,7 @@
     "app-root-path": "^2.2.1",
     "aws-sdk": "^2.573.0",
     "chalk": "^2.4.2",
+    "console-table-printer": "^1.2.13",
     "cors": "^2.8.5",
     "directory-tree": "^2.2.4",
     "express": "^4.17.1",
@@ -32,6 +33,7 @@
     "markdown-it-attrs": "^3.0.1",
     "md5": "^2.2.1",
     "mkdirp": "^0.5.1",
+    "moment": "^2.24.0",
     "nunjucks": "^3.2.1",
     "nunjucks-date-filter": "^0.1.1",
     "open": "^7.0.3",
@@ -50,5 +52,8 @@
   "bugs": {
     "url": "https://github.com/leenattress/museful/issues"
   },
-  "homepage": "https://github.com/leenattress/museful"
+  "homepage": "https://github.com/leenattress/museful",
+  "devDependencies": {
+    "faker": "^4.1.0"
+  }
 }

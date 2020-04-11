@@ -16,6 +16,9 @@ app.use(bodyParser.json());
 
 // serve the app folder as root
 app.use("/", express.static(path.join(__dirname, "/../frontend/public")));
+app.use("/preview", express.static(path.join(process.cwd(), "/musings/dist")));
+
+console.log (`Using musings from ${ path.join(process.cwd(), "/musings")}`);
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
@@ -44,6 +47,22 @@ function getMeta(contents, meta) {
   } else {
     return null;
   }
+}
+
+function normalizeDate(time) {
+  switch (typeof time) {
+    case "number":
+      break;
+    case "string":
+      time = +new Date(time);
+      break;
+    case "object":
+      if (time.constructor === Date) time = time.getTime();
+      break;
+    default:
+      time = +new Date();
+  }
+  return time;
 }
 
 async function rightPlace() {
@@ -126,7 +145,7 @@ async function updateMusing(id, body) {
 }
 app.put("/musings", async function(req, res) {
   try {
-    if (req.body.content && req.body.id && req.body.id !== '') {
+    if (req.body.content && req.body.id && req.body.id !== "") {
       clog("→ update musing " + req.body.id);
       await updateMusing(req.body.id, req.body);
       res.json({ status: "ok", id });
@@ -254,7 +273,7 @@ app.get("/package", async function(req, res) {
 
 // local debug
 app.listen(3000, function() {
-  console.log("App started");
+  console.log("Museful local server started. http://localhost:3000");
 });
 
 // Export the app object. When executing the application local this does nothing. However,

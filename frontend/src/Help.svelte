@@ -63,7 +63,10 @@
         your source control.
       </p>
       <p class="font-weight-bold">We can have gifs</p>
-      <img class="img-fluid" alt="coding" src="https://i.imgur.com/JZrUNZr.gif" />
+      <img
+        class="img-fluid"
+        alt="coding"
+        src="https://i.imgur.com/JZrUNZr.gif" />
       <p class="font-italic">- Lee Nattress</p>
     </Col>
   </Row>

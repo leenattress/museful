@@ -38,8 +38,6 @@ var s3 = require("s3");
 var AWS = require("aws-sdk");
 var s3EasyDeploy = require("s3-easy-deploy");
 
-const app = require("./../api/server");
-
 function showError() {
   c(
     chalk.red(`
@@ -102,8 +100,7 @@ function getConfig() {
   const jsonConfigPath = "./musings/museful.json";
 
   if (fs.existsSync(jsonConfigPath)) {
-    c(chalk.green("museful config found:"));
-    c(chalk.green(jsonConfigPath));
+    c(chalk.green(`museful config found: ${jsonConfigPath}`));
     return JSON.parse(fs.readFileSync(jsonConfigPath));
   } else {
     showError();
@@ -176,14 +173,13 @@ Try this:`)
         "-" +
         slugify(userName(), {
           replacement: "-", // replace spaces with replacement character, defaults to `-`
-          lower: true // convert to lower case, defaults to `false`
+          lower: true, // convert to lower case, defaults to `false`
         });
 
       if (fs.existsSync("./musings/museful.json")) {
         // (async () => {
         //   await open("http://localhost:3000");
         // })();
-
         //         const now = new Date().toISOString();
         //         const markdownContent = `
         // [meta-date]: <> (${now})
@@ -191,37 +187,26 @@ Try this:`)
         // [meta-branch]: <> (${git.branch})
         // [meta-sha]: <> (${git.abbreviatedSha ? git.abbreviatedSha : "(none)"})
         // [meta-user]: <> (${userName()})
-
         // # Branch: ${git.branch}
-
         // ## Commit: ${git.abbreviatedSha ? git.abbreviatedSha : "(none)"}
-
         // - What part of the code are you working on now?
         // - What problem have you just solved?
         // - Are there any code snippets you're particularly proud of?
-
         // \`\`\`want to share them?\`\`\`
-
         // `;
-
         //         const appDirIn = getConfig().input;
-
         //         const fileName = appDirIn + "/" + subject + ".md";
-
         //         if (fs.existsSync(fileName)) {
         //           showError();
         //           c(chalk.red("Musing already exists"));
         //           process.exit();
         //         }
-
         //         fs.writeFileSync(fileName, markdownContent, "utf8", function(err) {
         //           if (err) {
         //             c(`An error occured while writing ${fileName} config to File.`);
         //             return c(err);
         //           }
-
         //           c(chalk.green(`${subject}.md markdown created.`));
-
         //         });
       } else {
         console.log("error: run from project root");
@@ -237,9 +222,9 @@ Try this:`)
         publicRoot: `${process.cwd()}\\${appDirOut}`,
         bucket: siteConfig.deploy.s3Bucket,
         acl: "public-read",
-        region: siteConfig.deploy.s3Region
+        region: siteConfig.deploy.s3Region,
       },
-      function(error, result) {
+      function (error, result) {
         if (error) {
           console.log(error);
         }
@@ -252,7 +237,7 @@ Try this:`)
   if (command === "build") {
     const siteConfig = getConfig();
     c(chalk.green("Building"), siteConfig.title);
-    museful.build(appDirIn, appDirOut, siteConfig);
+    museful.build(siteConfig);
     process.exit();
   }
 
@@ -403,7 +388,7 @@ Try this:`)
 — Mark Andreesen, speaking of the HTML tag BLINK`,
 
       `“You can make more friends in two months by becoming interested in other people than you can in two years by trying to get other people interested in you”
-- Dale Carnegie`
+- Dale Carnegie`,
     ];
 
     const randomNumber = Math.floor(Math.random() * inspiration.length);
@@ -411,8 +396,8 @@ Try this:`)
     c(chalk.green(inspiration[randomNumber]));
   }
 } else {
-  // Start server here for web interface
-
-  showTitle();
-  process.exit();
+  const app = require("./../api/server");
+  (async () => {
+    await open("http://localhost:3000");
+  })();
 }

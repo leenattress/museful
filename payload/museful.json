@@ -1,9 +1,12 @@
 {
   "title": "Project Musings",
-  "theme": "simplest",
+  "description": "This project info can be changed in the museful.json file",
+  "theme": "committed",
   "articlesPerPage": 32,
   "themeData": {
-    "headerOverlayColour": "rgba(59, 48, 84, 0.6)"
+    "headerOverlayColour": "rgba(7, 54, 66, 0.6)",
+    "primaryColour": "rgba(7, 54, 66, 0.6)",
+    "projectLogo": "assets/images/project-logo.png"
   },
   "output": "musings/dist",
   "input": "musings/src"

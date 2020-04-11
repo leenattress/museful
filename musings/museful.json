@@ -1,10 +1,24 @@
 {
   "title": "Project Musings",
-  "theme": "simplest",
+  "description": "This project info can be changed in the museful.json file",
+  "url": "https://github.com/leenattress/museful",
+  "theme": "committed",
   "articlesPerPage": 32,
   "themeData": {
-    "headerOverlayColour": "rgba(59, 48, 84, 0.6)"
+    "headerOverlayColour": "rgba(7, 54, 66, 0.8)",
+    "primaryColour": "#073642",
+    "projectLogo": "assets/images/project-logo.png"
   },
   "output": "musings/dist",
-  "input": "musings/src"
+  "input": "musings/src",
+  "social": {
+    "Twitter": "leenattress",
+    "Github": "leenattress",
+    "LinkedIn": "leenattress"
+  },
+  "links": {
+    "Home": "/",
+    "Github": "https://github.com/leenattress/museful",
+    "NPM": "https://www.npmjs.com/package/museful"
+  }
 }

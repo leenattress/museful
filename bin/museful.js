@@ -19,11 +19,19 @@ dateFilter.setDefaultFormat("dddd, MMMM Do YYYY, h:mm:ss a");
 let env = nunjucks.configure({ autoescape: true });
 env.addFilter("date", dateFilter);
 
+const { Table } = require("console-table-printer");
+const p = new Table({
+  columns: [
+    { name: 'Filename', alignment: 'left', color: 'yellow' }, //with alignment and color
+    { name: 'Written', alignment: 'left', color: 'green' },
+  ],
+});
+
 // a helper function to get meta-data from markdown files
 function getMeta(contents, meta) {
   var regStr = `\\[meta-${meta}\\]: <>\\s\\(*(.+)\\)\\s*`;
   var reg = new RegExp(regStr);
-  const stringReturn = (contents.match(reg) || []).map(e =>
+  const stringReturn = (contents.match(reg) || []).map((e) =>
     e.replace(reg, "$1")
   );
   if (stringReturn[0]) {
@@ -33,17 +41,37 @@ function getMeta(contents, meta) {
   }
 }
 
+var truncate = function (fullStr, strLen, separator) {
+  if (fullStr.length <= strLen) return fullStr;
+
+  separator = separator || "...";
+
+  var sepLen = separator.length,
+    charsToShow = strLen - sepLen,
+    frontChars = Math.ceil(charsToShow / 2),
+    backChars = Math.floor(charsToShow / 2);
+
+  return (
+    fullStr.substr(0, frontChars) +
+    separator +
+    fullStr.substr(fullStr.length - backChars)
+  );
+};
+
 function render(node, inFolder, outFolder, siteConfig) {
+
+  var begin=Date.now();
+
   // get the contents of the template file
   var template = fs.readFileSync(
-    "themes/" + siteConfig.theme + "/page.html",
+    "musings/themes/" + siteConfig.theme + "/template.html",
     "utf8"
   );
 
   // this array will be the pages we write
   let pages = [];
 
-  node.forEach(page => {
+  node.forEach((page) => {
     if (page.name != "index.md" && page.name != "404.md") {
       // special cases
 
@@ -53,11 +81,12 @@ function render(node, inFolder, outFolder, siteConfig) {
 
         //get the meta info from this file
         let metaDate = getMeta(contents, "date");
-        let metaTitle = getMeta(contents, "title");
+        let metaUser = getMeta(contents, "user");
+        // let metaTitle = getMeta(contents, "title");
         let metaFeaturedImage = getMeta(contents, "featured");
 
         // we need a date, a title and an author for a page to be returned
-        if (contents && metaDate && metaTitle) {
+        if (contents && metaDate) {
           // render the markdown to html
           var htmlResult = md.render(contents);
 
@@ -66,13 +95,14 @@ function render(node, inFolder, outFolder, siteConfig) {
 
           // add to the page array
           pages.push({
-            pageTitle: metaTitle,
+            pageTitle: "CHANGE ME",
             pageDate: metaDate,
             pageContent: htmlResult,
             pageLink: filename,
             pageFeaturedImage: metaFeaturedImage,
             filename: filename,
-            siteConfig: siteConfig // every page gets a copy of the config
+            user: metaUser,
+            siteConfig: siteConfig, // every page gets a copy of the config
           });
         }
       }
@@ -80,13 +110,13 @@ function render(node, inFolder, outFolder, siteConfig) {
   });
 
   //sort the pages by created date
-  pages.sort(function(a, b) {
+  pages.sort(function (a, b) {
     // Turn strings into dates, and then subtract them
     // to get a value that is either negative, positive, or zero.
     return new Date(b.pageDate) - new Date(a.pageDate);
   });
 
-  pages.forEach(page => {
+  pages.forEach((page) => {
     // attach the pages to each page, as a history
     page.history = pages;
   });
@@ -94,7 +124,7 @@ function render(node, inFolder, outFolder, siteConfig) {
   // we need a series of index pages, if we have lots of articles
   const articlesPerPage = siteConfig.articlesPerPage;
   const indexPageCount = Math.ceil(pages.length / articlesPerPage);
-  console.log("Index pages count:", indexPageCount);
+  // console.log("Index pages count:", indexPageCount);
 
   //get index page meta
   // get contents of markdown from disk
@@ -141,7 +171,7 @@ function render(node, inFolder, outFolder, siteConfig) {
       linkPrev: linkPrev,
       linkNext: linkNext,
       isIndex: true,
-      indexCount: step
+      indexCount: step,
     };
 
     // final rendered page with html and data
@@ -149,16 +179,16 @@ function render(node, inFolder, outFolder, siteConfig) {
 
     // write the file back to disk, at the moment, flat file structure
     fs.writeFileSync(outFolder + "/" + indexFilename, htmlRender);
-    console.log(outFolder + "/" + indexFilename + " written.");
+    // console.log(outFolder + "/" + indexFilename + " written.");
   }
 
   let pageIndex = 0;
-  console.log(
-    "pages:",
-    pages.map(page => page.pageTitle)
-  );
+  // console.log(
+  //   "pages:",
+  //   pages.map(page => page.pageTitle)
+  // );
 
-  pages.forEach(page => {
+  pages.forEach((page) => {
     //previous and next links
     let linkPrev = null,
       linkNext = null;
@@ -180,25 +210,49 @@ function render(node, inFolder, outFolder, siteConfig) {
 
     // write the file back to disk, at the moment, flat file structure
     fs.writeFileSync(outFolder + "/" + page.filename, htmlRender);
-    console.log(outFolder + "/" + page.filename + " written.");
+
+    p.addRow(
+      {
+        Filename: truncate(page.filename, 60, '...'),
+        Written: new Date(page.pageDate).toLocaleDateString(),
+      },
+      { color: "green" }
+    );
+
     pageIndex++; //add one to the page index
   });
+  p.printTable();
+  console.log(`${pages.length} musings written.`);
+  // console.timeEnd('Build time')
+  var end= Date.now();
+  var timeSpent=(end-begin)/1000+" seconds";
+  console.log(`${timeSpent} build time.`);
+
+
 }
 
-function build(inFolder, outFolder, siteConfig) {
+function build(siteConfig) {
   try {
-    fs.copySync(inFolder + "/assets/images", outFolder + "/assets/images");
     fs.copySync(
-      "themes/" + siteConfig.theme + "/assets/css",
-      outFolder + "/assets/css"
+      siteConfig.input + "/assets/images",
+      siteConfig.output + "/assets/images"
     );
     fs.copySync(
-      "themes/" + siteConfig.theme + "/assets/js",
-      outFolder + "/assets/js"
+      "musings/themes/" + siteConfig.theme + "/assets/css",
+      siteConfig.output + "/assets/css"
     );
-    const tree = dirTree(inFolder);
-    if (tree.children && inFolder && outFolder) {
-      this.render(tree.children, inFolder, outFolder, siteConfig);
+    fs.copySync(
+      "musings/themes/" + siteConfig.theme + "/assets/js",
+      siteConfig.output + "/assets/js"
+    );
+    const tree = dirTree(siteConfig.input);
+    if (siteConfig && tree.children && siteConfig.input && siteConfig.output) {
+      this.render(
+        tree.children,
+        siteConfig.input,
+        siteConfig.output,
+        siteConfig
+      );
     }
   } catch (err) {
     console.error(err);
@@ -210,7 +264,7 @@ function deploy(appDirIn, appDirOut, siteConfig) {
 
   let awsS3Client = new AWS.S3();
   let client = s3.createClient({
-    s3Client: awsS3Client
+    s3Client: awsS3Client,
   });
 
   console.log(`${process.cwd()}\\${appDirOut}`);
@@ -220,18 +274,18 @@ function deploy(appDirIn, appDirOut, siteConfig) {
     deleteRemoved: true,
     s3Params: {
       Bucket: siteConfig.deploy.s3Bucket,
-      Prefix: ""
-    }
+      Prefix: "",
+    },
   };
 
   let uploader = client.uploadDir(params);
-  uploader.on("error", function(err) {
+  uploader.on("error", function (err) {
     console.error("unable to sync:", err.stack);
   });
-  uploader.on("progress", function() {
+  uploader.on("progress", function () {
     console.log("progress", uploader.progressAmount, uploader.progressTotal);
   });
-  uploader.on("end", function() {
+  uploader.on("end", function () {
     console.log("done uploading");
   });
 }
@@ -239,5 +293,5 @@ function deploy(appDirIn, appDirOut, siteConfig) {
 module.exports = {
   render: render,
   build: build,
-  deploy: deploy
+  deploy: deploy,
 };
