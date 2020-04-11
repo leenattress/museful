@@ -19,7 +19,6 @@
     <script>
       hljs.initHighlightingOnLoad();
     </script>
-
   </head>
 
   <body>
@@ -101,14 +100,16 @@
       <div class="row">
         {% if pageTitle %} {% else %}
         <style>
-          .simplest-content h1:first-of-type {
+          .content-container h1:first-of-type {
             display: none;
           }
         </style>
         {% endif %}
 
         <div class="simplest-content col-12 col-lg-9">
-          {{pageContent | safe}}
+          <div class="content-container">
+            {{pageContent | safe}}
+          </div>
 
           <!-- content only for homepage -->
           {% if isIndex %}
@@ -125,7 +126,7 @@
                   {% if indexArticle.pageTitle %}
                   <h1>{{indexArticle.pageTitle}}</h1>
                   {% endif %}
-                  <div>
+                  <div class="index-content">
                     {{indexArticle.pageContent | safe}}
                   </div>
                   <a href="{{indexArticle.pageLink}}" class="stretched-link"
@@ -313,7 +314,11 @@
         </div>
       </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/scripts.js"></script>
   </body>

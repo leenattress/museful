@@ -19,7 +19,6 @@
     <script>
       hljs.initHighlightingOnLoad();
     </script>
-
   </head>
 
   <body>
@@ -102,10 +101,12 @@
          
 
         <div class="simplest-content col-12 col-lg-9">
-          <p>In the museful editor, we use markdown. This means we can use the hashtag # to denote a title.</p>
+          <div class="content-container">
+            <p>In the museful editor, we use markdown. This means we can use the hashtag # to denote a title.</p>
 <p>When the creator muses a document where the first line has a single hash, we assume this is the title and we set that in the metadata.</p>
 <p>I think this is a nice quality of life feature, and this means that the markdown API returns the title, in the JSON response.</p>
 
+          </div>
 
           <!-- content only for homepage -->
            
@@ -341,7 +342,11 @@
         </div>
       </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/scripts.js"></script>
   </body>

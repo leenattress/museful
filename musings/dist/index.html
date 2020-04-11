@@ -19,7 +19,6 @@
     <script>
       hljs.initHighlightingOnLoad();
     </script>
-
   </head>
 
   <body>
@@ -92,14 +91,16 @@
       <div class="row">
         
         <style>
-          .simplest-content h1:first-of-type {
+          .content-container h1:first-of-type {
             display: none;
           }
         </style>
         
 
         <div class="simplest-content col-12 col-lg-9">
-          
+          <div class="content-container">
+            
+          </div>
 
           <!-- content only for homepage -->
           
@@ -116,7 +117,7 @@
                   
                   <h1>Highlighting code blocks with highlight.js</h1>
                   
-                  <div>
+                  <div class="index-content">
                     <p>When the template is built, we include some cdn hosted highlighting library.</p>
 <p>Our markdown editor automatically wraps code in the correct html to make it all work.</p>
 <pre><code class="language-html">    &lt;link
@@ -153,7 +154,7 @@
                   
                   <h1>Automatically extracting the title</h1>
                   
-                  <div>
+                  <div class="index-content">
                     <p>In the museful editor, we use markdown. This means we can use the hashtag # to denote a title.</p>
 <p>When the creator muses a document where the first line has a single hash, we assume this is the title and we set that in the metadata.</p>
 <p>I think this is a nice quality of life feature, and this means that the markdown API returns the title, in the JSON response.</p>
@@ -181,7 +182,7 @@
                     <strong>Lee Nattress</strong> wrote:
                   </p>
                   
-                  <div>
+                  <div class="index-content">
                     <h1>Bringing it all Together</h1>
 <p>I've taken a little break in coding museful, mainly due to the coronavirus pandemic that is gripping the nation, but now I'm back. I've bought myself a new keyboard, a mechanical one that makes wonderful sounds when I type, so typing is fun again! So let's get back on it.</p>
 <p>A new theme is born from the one I created for plix, and I've called it <strong>committed</strong>.</p>
@@ -214,7 +215,7 @@
                   
                   <h1>window.setTimeout madness</h1>
                   
-                  <div>
+                  <div class="index-content">
                     <p>Honestly, I hate using it, it seems to be outdated and hacky, but sometimes frameworks dont do updates immediately, and this is a require hack.</p>
 <p>This time I needed to make sure the pane on the left where you type your markdown is always the height it should be even after you toggle the preview on, because it lengthens and shortes it based on the width.</p>
 <p>That is all, rant over, everything is <em>gravy</em>.</p>
@@ -244,7 +245,7 @@
                   
                   <h1>Being opinionated</h1>
                   
-                  <div>
+                  <div class="index-content">
                     <p>Sometimes I find myself pushing my opinions of those who might use my software. In this case, I'm expecting them to write thoughtful musings on a project.</p>
 <p>Developers need to be aware that, when you contribute thoughts to museful, you are actually putting them into the source repository and that these markdown files, though prepared in a web interface, will be checked over by your comrades for errors and omissions.</p>
 <p>These files though, the thoughts, I want them to be less <em>reviewed</em> as <em>enjoyed</em>. I want others on your team to see your process while you were coding and learn from it, or even, disagree if that's their bag.</p>
@@ -274,7 +275,7 @@
                     <strong>Lee Nattress</strong> wrote:
                   </p>
                   
-                  <div>
+                  <div class="index-content">
                     <h1>Flat files instead of a database</h1>
 <h2>What I'm working on</h2>
 <p>I'm working on the API of museful.</p>
@@ -320,7 +321,7 @@
                     <strong>Lee Nattress</strong> wrote:
                   </p>
                   
-                  <div>
+                  <div class="index-content">
                     <h1>The Logo</h1>
 <p>I know that to connect with an application we use, and to have it become part of our ritual, we need something tangible to lock onto. I needed a break from coding for a while so I decided to put goether some colours and an art style for the project. I decided to make a sort of <em>mini brand</em>.</p>
 <p>I thought about the way we think about the word muse and what it means. I don't mean the band Muse, although they are very good, I merely mean the inspirational types that give is direction and ideas when we are perhaps lost.</p>
@@ -601,7 +602,11 @@
         </div>
       </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/scripts.js"></script>
   </body>

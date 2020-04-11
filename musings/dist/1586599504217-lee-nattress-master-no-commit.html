@@ -19,7 +19,6 @@
     <script>
       hljs.initHighlightingOnLoad();
     </script>
-
   </head>
 
   <body>
@@ -102,20 +101,22 @@
       <div class="row">
         
         <style>
-          .simplest-content h1:first-of-type {
+          .content-container h1:first-of-type {
             display: none;
           }
         </style>
         
 
         <div class="simplest-content col-12 col-lg-9">
-          <h1>Bringing it all Together</h1>
+          <div class="content-container">
+            <h1>Bringing it all Together</h1>
 <p>I've taken a little break in coding museful, mainly due to the coronavirus pandemic that is gripping the nation, but now I'm back. I've bought myself a new keyboard, a mechanical one that makes wonderful sounds when I type, so typing is fun again! So let's get back on it.</p>
 <p>A new theme is born from the one I created for plix, and I've called it <strong>committed</strong>.</p>
 <p><code>git commit -m 'created a clever theme name based around a git command'</code></p>
 <p>It's a rework in that it is stripped of all the social and other clutter, and I've made those elements present in the source HTML, merely commented out, for future template editing, when you may want them back in. It also includes customizable navigation and some fun header images and such.</p>
 <p>It shares the dark blue of the admin theme, and this can be easily configured using the museful.json found in your musings folder.</p>
 
+          </div>
 
           <!-- content only for homepage -->
            
@@ -351,7 +352,11 @@
         </div>
       </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/scripts.js"></script>
   </body>
