@@ -1,12 +1,12 @@
 {
-  "title": "Project Musings",
-  "description": "This project info can be changed in the museful.json file",
+  "title": "museful code blogging",
+  "description": "museful is a terminal application and web interface that lets developers on a project have more meaningful discussion with anybody interested in the source code than just commit messages.",
   "url": "https://github.com/leenattress/museful",
   "theme": "committed",
   "articlesPerPage": 32,
   "themeData": {
     "headerOverlayColour": "rgba(7, 54, 66, 0.8)",
-    "primaryColour": "#073642",
+    "primaryColour": "#142738",
     "projectLogo": "assets/images/project-logo.png"
   },
   "output": "musings/dist",

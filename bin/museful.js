@@ -22,8 +22,8 @@ env.addFilter("date", dateFilter);
 const { Table } = require("console-table-printer");
 const p = new Table({
   columns: [
-    { name: 'Filename', alignment: 'left', color: 'yellow' }, //with alignment and color
-    { name: 'Written', alignment: 'left', color: 'green' },
+    { name: "Filename", alignment: "left", color: "yellow" }, //with alignment and color
+    { name: "Written", alignment: "left", color: "green" },
   ],
 });
 
@@ -59,8 +59,7 @@ var truncate = function (fullStr, strLen, separator) {
 };
 
 function render(node, inFolder, outFolder, siteConfig) {
-
-  var begin=Date.now();
+  var begin = Date.now();
 
   // get the contents of the template file
   var template = fs.readFileSync(
@@ -213,7 +212,7 @@ function render(node, inFolder, outFolder, siteConfig) {
 
     p.addRow(
       {
-        Filename: truncate(page.filename, 60, '...'),
+        Filename: truncate(page.filename, 60, "..."),
         Written: new Date(page.pageDate).toLocaleDateString(),
       },
       { color: "green" }
@@ -224,11 +223,9 @@ function render(node, inFolder, outFolder, siteConfig) {
   p.printTable();
   console.log(`${pages.length} musings written.`);
   // console.timeEnd('Build time')
-  var end= Date.now();
-  var timeSpent=(end-begin)/1000+" seconds";
+  var end = Date.now();
+  var timeSpent = (end - begin) / 1000 + " seconds";
   console.log(`${timeSpent} build time.`);
-
-
 }
 
 function build(siteConfig) {
@@ -244,6 +241,10 @@ function build(siteConfig) {
     fs.copySync(
       "musings/themes/" + siteConfig.theme + "/assets/js",
       siteConfig.output + "/assets/js"
+    );
+    fs.copySync(
+      "musings/themes/" + siteConfig.theme + "/favicon.ico",
+      siteConfig.output + "/favicon.ico"
     );
     const tree = dirTree(siteConfig.input);
     if (siteConfig && tree.children && siteConfig.input && siteConfig.output) {

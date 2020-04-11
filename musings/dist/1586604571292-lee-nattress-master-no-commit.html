@@ -4,8 +4,8 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>{{pageTitle}} | {{siteConfig.title}}</title>
-    <meta name="author" content="{{pageAuthor}}" />
+    <title>Automatically extracting the title | museful code blogging</title>
+    <meta name="author" content="" />
     <link rel="stylesheet" href="assets/css/bootstrap-theme.css?v=1.0" />
     <link rel="stylesheet" href="assets/css/styles.css?v=1.0" />
     <meta charset="utf-8" />
@@ -25,9 +25,9 @@
   <body>
     <nav
       class="navbar navbar-expand-lg navbar-dark"
-      style="background-color: {{siteConfig.themeData.primaryColour}}"
+      style="background-color: #142738"
     >
-      <a class="navbar-brand" href="index.html">{{siteConfig.title}}</a>
+      <a class="navbar-brand" href="index.html">museful code blogging</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -40,31 +40,33 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      {% if siteConfig.links %}
+      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          {% for key, item in siteConfig.links %}
+          
           <li class="nav-item">
-            <a class="nav-link" href="{{item}}">{{key}}</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
-          {% endfor %}
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/leenattress/museful">Github</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.npmjs.com/package/museful">NPM</a>
+          </li>
+          
         </ul>
       </div>
-      {% endif %}
+      
     </nav>
 
     <div class="mb-4 bg-primary">
       <div
-        {%
-        if
-        pageFeaturedImage
-        %}style="background: url('{{pageFeaturedImage|safe}}') no-repeat center center;background-size: cover;"
-        {%
-        endif
-        %}
+        
       >
         <div
-          style="background: {{siteConfig.themeData.headerOverlayColour}}; z-index: 2;"
+          style="background: rgba(7, 54, 66, 0.8); z-index: 2;"
         >
           <div class="pt-5 pb-5 text-white">
             <div class="container">
@@ -75,11 +77,9 @@
                     0px 0px 6px rgba(0, 0, 0, 1);
                 "
               >
-                {% if pageTitle %} {{pageTitle}} {% else %}
-                {{pageContent.split('\n')[0] | truncate(50,false,'...') | safe |
-                striptags(true) | title }} {% endif %}
+                 Automatically extracting the title 
               </h1>
-              {% if pageLink !== 'index.html' %}
+              
               <h5
                 class="mt-5"
                 style="
@@ -87,10 +87,10 @@
                     0px 0px 6px rgba(0, 0, 0, 1);
                 "
               >
-                On {{pageDate|date}}
-                <small class="text-white">by {{user}}</small>
+                On Saturday, April 11th 2020, 11:29:31 am
+                <small class="text-white">by Lee Nattress</small>
               </h5>
-              {% endif %}
+              
             </div>
           </div>
         </div>
@@ -99,89 +99,51 @@
 
     <div class="container">
       <div class="row">
-        {% if pageTitle %} {% else %}
-        <style>
-          .simplest-content h1:first-of-type {
-            display: none;
-          }
-        </style>
-        {% endif %}
+         
 
         <div class="simplest-content col-12 col-lg-9">
-          {{pageContent | safe}}
+          <p>In the museful editor, we use markdown. This means we can use the hashtag # to denote a title.</p>
+<p>When the creator muses a document where the first line has a single hash, we assume this is the title and we set that in the metadata.</p>
+<p>I think this is a nice quality of life feature, and this means that the markdown API returns the title, in the JSON response.</p>
+
 
           <!-- content only for homepage -->
-          {% if isIndex %}
-          <div class="index-content">
-            {% if history.length > 0 %}
-            <div class="mt-4">
-              {% for indexArticle in indexArticles %}
-              <div class="row">
-                <div class="col-12 mb-4">
-                  <p class="text-secondary mb-1 mt-1">
-                    At <strong>{{indexArticle.pageDate|date}}</strong>,
-                    <strong>{{indexArticle.user}}</strong> wrote:
-                  </p>
-                  {% if indexArticle.pageTitle %}
-                  <h1>{{indexArticle.pageTitle}}</h1>
-                  {% endif %}
-                  <div>
-                    {{indexArticle.pageContent | safe}}
-                  </div>
-                  <a href="{{indexArticle.pageLink}}" class="stretched-link"
-                    >Get Link</a
-                  >
-
-                  <div
-                    class="progress-bar mb-1 mt-4"
-                    role="progressbar"
-                    style="width: 100%; height: 1px;"
-                    aria-valuenow="100"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-            {% endif %}
-          </div>
-          {% endif %} {% if linkNext or linkPrev %}
+           
           <div class="mt-4 mb-4 next-previous-buttons">
-            {% if linkNext %}<a
+            <a
               class="btn btn-primary btn-lg rounded-0 float-right"
-              href="{{linkNext}}"
+              href="1586632605784-lee-nattress-master-no-commit.html"
               >Next</a
-            >{% endif %} {% if linkPrev %}<a
+            > <a
               class="btn btn-primary btn-lg rounded-0 float-left"
-              href="{{linkPrev}}"
+              href="1586599504217-lee-nattress-master-no-commit.html"
               >Previous</a
-            >{% endif %}
+            >
             <div class="clearfix"></div>
           </div>
-          {% endif %}
+          
         </div>
         <div class="simplest-sidebar col-12 col-lg-3">
           <div class="simplest-bio">
             <div class="card rounded-0">
-              <a href="{{siteConfig.url}}">
+              <a href="https://github.com/leenattress/museful">
                 <img
                   class="card-img-top rounded-0"
-                  src="{{siteConfig.themeData.projectLogo}}"
-                  alt="{{siteConfig.title}} profile image"
+                  src="assets/images/project-logo.png"
+                  alt="museful code blogging profile image"
                 />
               </a>
               <div class="card-body">
-                <h5 class="card-title">{{siteConfig.title}}</h5>
-                {% if siteConfig.description %}
-                <p class="card-text small">{{siteConfig.description|safe}}</p>
-                {% endif %}
+                <h5 class="card-title">museful code blogging</h5>
+                
+                <p class="card-text small">museful is a terminal application and web interface that lets developers on a project have more meaningful discussion with anybody interested in the source code than just commit messages.</p>
+                
               </div>
             </div>
           </div>
 
           <!-- https://dribbble.com/shots/2089345-Nucleo-Free-Social-Icons -->
-          {% if siteConfig.social %}
+          
 
           <!--
           <div
@@ -197,11 +159,11 @@
             <h3 class="mb-3">Social</h3>
 
             <div class="row">
-              {% if siteConfig.social.Twitter %}
+              
               <div class="col-3">
                 <a
                   class="block"
-                  href="http://twitter.com/{{siteConfig.social.Twitter}}"
+                  href="http://twitter.com/leenattress"
                 >
                   <img
                     class="img-fluid w-100"
@@ -209,11 +171,11 @@
                   />
                 </a>
               </div>
-              {% endif %} {% if siteConfig.social.Github %}
+               
               <div class="col-3">
                 <a
                   class="block"
-                  href="http://github.com/{{siteConfig.social.Github}}"
+                  href="http://github.com/leenattress"
                 >
                   <img
                     class="img-fluid w-100"
@@ -221,11 +183,11 @@
                   />
                 </a>
               </div>
-              {% endif %} {% if siteConfig.social.LinkedIn %}
+               
               <div class="col-3">
                 <a
                   class="block"
-                  href="https://www.linkedin.com/in/{{siteConfig.social.LinkedIn}}"
+                  href="https://www.linkedin.com/in/leenattress"
                 >
                   <img
                     class="img-fluid w-100"
@@ -233,50 +195,116 @@
                   />
                 </a>
               </div>
-              {% endif %}
+              
             </div>
           </h3> -->
-          {% endif %} {% if history.length > 0 %}
+           
 
           <div class="mt-4 simplest-social-icons">
             <h3 class="mb-3">Recent</h3>
-            {% for historyPage in history.slice(0,5) %}
+            
             <div class="row">
               <div
                 class="col-12 mt-3 mb-3 border-swatch-300 border border-left-0 border-right-0 border-top-0"
               ></div>
 
               <div class="col-12">
-                {% if historyPage.pageTitle %}
+                
                 <h5>
                   <a
-                    title="{{historyPage.pageTitle}}"
-                    href="{{historyPage.pageLink}}"
-                    >{{historyPage.pageTitle.split('\n')[0] |
-                    truncate(50,false,'...') | safe | striptags(true) | title
-                    }}</a
+                    title="Highlighting code blocks with highlight.js"
+                    href="1586632605784-lee-nattress-master-no-commit.html"
+                    >Highlighting Code Blocks With Highlight.js</a
                   >
                 </h5>
-                {% else %}
-                <h5>
-                  <a
-                    title="{{historyPage.pageContent.split('\n')[0] |
-                    truncate(50,false,'...') | safe | striptags(true) | title
-                    }}"
-                    href="{{historyPage.pageLink}}"
-                    >{{historyPage.pageContent.split('\n')[0] |
-                    truncate(50,false,'...') | safe | striptags(true) | title
-                    }}</a
-                  >
-                </h5>
-                {% endif %}
-                <p class="small m-0 p-0">{{historyPage.pageDate|date}}</p>
-                <p class="small text-muted m-0 p-0">by {{historyPage.user}}</p>
+                
+                <p class="small m-0 p-0">Saturday, April 11th 2020, 7:16:45 pm</p>
+                <p class="small text-muted m-0 p-0">by Lee Nattress</p>
               </div>
             </div>
-            {% endfor %}
+            
+            <div class="row">
+              <div
+                class="col-12 mt-3 mb-3 border-swatch-300 border border-left-0 border-right-0 border-top-0"
+              ></div>
+
+              <div class="col-12">
+                
+                <h5>
+                  <a
+                    title="Automatically extracting the title"
+                    href="1586604571292-lee-nattress-master-no-commit.html"
+                    >Automatically Extracting The Title</a
+                  >
+                </h5>
+                
+                <p class="small m-0 p-0">Saturday, April 11th 2020, 11:29:31 am</p>
+                <p class="small text-muted m-0 p-0">by Lee Nattress</p>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div
+                class="col-12 mt-3 mb-3 border-swatch-300 border border-left-0 border-right-0 border-top-0"
+              ></div>
+
+              <div class="col-12">
+                
+                <h5>
+                  <a
+                    title="Bringing It All Together"
+                    href="1586599504217-lee-nattress-master-no-commit.html"
+                    >Bringing It All Together</a
+                  >
+                </h5>
+                
+                <p class="small m-0 p-0">Saturday, April 11th 2020, 10:05:04 am</p>
+                <p class="small text-muted m-0 p-0">by Lee Nattress</p>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div
+                class="col-12 mt-3 mb-3 border-swatch-300 border border-left-0 border-right-0 border-top-0"
+              ></div>
+
+              <div class="col-12">
+                
+                <h5>
+                  <a
+                    title="window.setTimeout madness"
+                    href="1585580465967-gabriel-crowe-master-no-commit.html"
+                    >Window.settimeout Madness</a
+                  >
+                </h5>
+                
+                <p class="small m-0 p-0">Monday, March 30th 2020, 3:01:05 pm</p>
+                <p class="small text-muted m-0 p-0">by Lee Nattress</p>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div
+                class="col-12 mt-3 mb-3 border-swatch-300 border border-left-0 border-right-0 border-top-0"
+              ></div>
+
+              <div class="col-12">
+                
+                <h5>
+                  <a
+                    title="Being opinionated"
+                    href="1585562292225-gabriel-crowe-master-no-commit.html"
+                    >Being Opinionated</a
+                  >
+                </h5>
+                
+                <p class="small m-0 p-0">Monday, March 30th 2020, 9:58:12 am</p>
+                <p class="small text-muted m-0 p-0">by Lee Nattress</p>
+              </div>
+            </div>
+            
           </div>
-          {% endif %} {% if siteConfig.social.Twitter %}
+           
           <!-- 
           <div
             class="progress-bar mt-4 mb-4"
@@ -289,15 +317,15 @@
           <a
             class="twitter-timeline"
             data-tweet-limit="10"
-            href="https://twitter.com/{{siteConfig.social.Twitter}}?ref_src=twsrc%5Etfw"
-            >Tweets by {{siteConfig.social.Twitter}}</a
+            href="https://twitter.com/leenattress?ref_src=twsrc%5Etfw"
+            >Tweets by leenattress</a
           >
           <script
             async
             src="https://platform.twitter.com/widgets.js"
             charset="utf-8"
           ></script> -->
-          {% endif %}
+          
         </div>
       </div>
     </div>
@@ -307,7 +335,7 @@
         <div class="row">
           <div class="col-12 p-4">
             <p class="text-center">
-              &copy; Copyright 2020, {{siteConfig.title}}
+              &copy; Copyright 2020, museful code blogging
             </p>
           </div>
         </div>

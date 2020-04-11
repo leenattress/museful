@@ -120,7 +120,9 @@ if (args[0]) {
   const command = args[0]; //
 
   if (
-    !["help", "init", "new", "deploy", "build", "inspire"].includes(command)
+    !["help", "init", "new", "deploy", "build", "preview", "inspire"].includes(
+      command
+    )
   ) {
     showError();
     c(chalk.red("You gave a command that does not exist."));
@@ -177,10 +179,10 @@ Try this:`)
         });
 
       if (fs.existsSync("./musings/museful.json")) {
-            const app = require("./../api/server");
-            (async () => {
-              await open("http://localhost:3000/#/create");
-            })();
+        const app = require("./../api/server");
+        (async () => {
+          await open("http://localhost:3000/#/create");
+        })();
 
         // (async () => {
         //   await open("http://localhost:3000");
@@ -244,6 +246,16 @@ Try this:`)
     c(chalk.green("Building"), siteConfig.title);
     museful.build(siteConfig);
     process.exit();
+  }
+
+  if (command === "preview") {
+    const siteConfig = getConfig();
+    c(chalk.green("Building for preview"), siteConfig.title);
+    museful.build(siteConfig);
+    const app = require("./../api/server");
+    (async () => {
+      await open("http://localhost:3000/preview");
+    })();
   }
 
   if (command === "inspire") {
