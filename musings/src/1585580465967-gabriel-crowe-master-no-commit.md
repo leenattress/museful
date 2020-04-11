@@ -2,10 +2,9 @@
 [meta-date]: <> (2020-03-30T15:01:05.967Z)
 [meta-branch]: <> (master)
 [meta-commit]: <> (none)
-[meta-user]: <> (Gabriel Crowe)
+[meta-user]: <> (Lee Nattress)
 [meta-featured]: <> (assets/images/bg-7.gif)
-
-# window.setTimeout madness
+[meta-title]: <> (window.setTimeout madness)
 
 Honestly, I hate using it, it seems to be outdated and hacky, but sometimes frameworks dont do updates immediately, and this is a require hack.
 

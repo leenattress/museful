@@ -182,6 +182,9 @@
                     <div>{musing.id}</div>
                   </div>
                   <div class="md-html text-light">
+                    {#if musing.title}
+                      <h1>{musing.title}</h1>
+                    {/if}
                     {@html clean(marked(musing.content))}
                   </div>
                 </li>

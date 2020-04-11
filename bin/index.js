@@ -177,6 +177,11 @@ Try this:`)
         });
 
       if (fs.existsSync("./musings/museful.json")) {
+            const app = require("./../api/server");
+            (async () => {
+              await open("http://localhost:3000/#/create");
+            })();
+
         // (async () => {
         //   await open("http://localhost:3000");
         // })();

@@ -14,7 +14,10 @@
   </head>
 
   <body>
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: {{siteConfig.themeData.primaryColour}}">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="background-color: {{siteConfig.themeData.primaryColour}}"
+    >
       <a class="navbar-brand" href="index.html">{{siteConfig.title}}</a>
       <button
         class="navbar-toggler"
@@ -100,6 +103,9 @@
                     At <strong>{{indexArticle.pageDate|date}}</strong>,
                     <strong>{{indexArticle.user}}</strong> wrote:
                   </p>
+                  {% if indexArticle.pageTitle %}
+                    <h1>{{indexArticle.pageTitle}}</h1>
+                  {% endif %}
                   <div>
                     {{indexArticle.pageContent | safe}}
                   </div>
@@ -236,11 +242,7 @@
             </div>
             {% endfor %}
           </div>
-          {% endif %}
-
-
-
-          {% if siteConfig.social.Twitter %}
+          {% endif %} {% if siteConfig.social.Twitter %}
           <!-- 
           <div
             class="progress-bar mt-4 mb-4"

@@ -3,6 +3,7 @@ const fs = require("fs-extra");
 
 // git things
 const userName = require("git-user-name");
+// const email = require("git-user-email");
 const slugify = require("slugify");
 const getRepoInfo = require("git-repo-info");
 const git = getRepoInfo();
@@ -18,10 +19,17 @@ app.use(bodyParser.json());
 app.use("/", express.static(path.join(__dirname, "/../frontend/public")));
 app.use("/preview", express.static(path.join(process.cwd(), "/musings/dist")));
 
-console.log (`Using musings from ${ path.join(process.cwd(), "/musings")}`);
+console.log(`Using musings from ${path.join(process.cwd(), "/musings")}`);
+
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function (searchString, position) {
+    position = position || 0;
+    return this.indexOf(searchString, position) === position;
+  };
+}
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -39,7 +47,7 @@ function clog(msg) {
 function getMeta(contents, meta) {
   var regStr = `\\[meta-${meta}\\]: <>\\s\\(*(.+)\\)\\s*`;
   var reg = new RegExp(regStr);
-  const stringReturn = (contents.match(reg) || []).map(e =>
+  const stringReturn = (contents.match(reg) || []).map((e) =>
     e.replace(reg, "$1")
   );
   if (stringReturn[0]) {
@@ -73,6 +81,12 @@ async function rightPlace() {
   );
 }
 
+function getFirstLine(text) {
+  var index = text.indexOf("\n");
+  if (index === -1) index = undefined;
+  return text.substring(0, index);
+}
+
 // _GET to list
 async function getMusingsFromTimestamp(timestamp) {
   const path = require("path");
@@ -87,13 +101,28 @@ async function getMusingsFromTimestamp(timestamp) {
 
 // _POST to create
 async function createMusing(body) {
-  const musingFolder = `${process.cwd()}/musings/src/`;
-  const timeNow = Date.now();
+  try {
+    const musingFolder = `${process.cwd()}/musings/src/`;
+    const timeNow = Date.now();
 
-  const actualCommit = git.abbreviatedcommit
-    ? git.abbreviatedcommit
-    : "no-commit";
-  const markdownContent = `
+    const actualCommit = git.abbreviatedcommit
+      ? git.abbreviatedcommit
+      : "no-commit";
+
+    let bodyContent = body.content;
+    let pageTitle = "Musing";
+    let firstline = "";
+    if (bodyContent.indexOf("#") === 0) {
+      let lines = bodyContent.split("\n"); // split all lines into array
+      firstline = lines.shift(); // read and remove first line
+      bodyContent = lines.join("\n"); // re-join the remaining lines
+      pageTitle = firstline.substr(1);
+    } else {
+      bodyContent = body.content;
+    }
+
+    const markdownContent = `
+[meta-title]: <> (${pageTitle.trim()})
 [meta-date]: <> (${new Date().toISOString()})
 [meta-branch]: <> (${git.branch})
 [meta-commit]: <> (${git.abbreviatedcommit ? git.abbreviatedcommit : "none"})
@@ -101,32 +130,35 @@ async function createMusing(body) {
 
 `;
 
-  if (!!userName()) {
-    saveFileName =
-      musingFolder +
-      timeNow +
-      "-" +
-      slugify(userName() + "-" + git.branch + "-" + actualCommit, {
-        replacement: "-", // replace spaces with replacement character, defaults to `-`
-        lower: true // convert to lower case, defaults to `false`
-      }) +
-      ".md";
+    if (!!userName()) {
+      saveFileName =
+        musingFolder +
+        timeNow +
+        "-" +
+        slugify(userName() + "-" + git.branch + "-" + actualCommit, {
+          replacement: "-", // replace spaces with replacement character, defaults to `-`
+          lower: true, // convert to lower case, defaults to `false`
+        }) +
+        ".md";
+    }
+    // return await markdown.file.create(body);
+    await fs.writeFile(saveFileName, markdownContent + bodyContent);
+    return timeNow;
+  } catch (error) {
+    clog(error);
   }
-  // return await markdown.file.create(body);
-  await fs.writeFile(saveFileName, markdownContent + body.content);
-  return timeNow;
 }
-app.post("/musings", async function(req, res) {
-  try {
-    if (req.body.content) {
+app.post("/musings", async function (req, res) {
+  if (req.body.content) {
+    try {
       const id = await createMusing(req.body);
       clog("→ created musing " + id);
       res.json({ status: "ok", id });
-    } else {
-      throw "content required";
+    } catch (error) {
+      res.status(500).send({ status: "heck", error });
     }
-  } catch (error) {
-    res.status(500).send({ status: "heck", error });
+  } else {
+    throw "content required";
   }
 });
 
@@ -143,7 +175,7 @@ async function updateMusing(id, body) {
   await fs.writeFile(saveFileName, body.content);
   return timeNow;
 }
-app.put("/musings", async function(req, res) {
+app.put("/musings", async function (req, res) {
   try {
     if (req.body.content && req.body.id && req.body.id !== "") {
       clog("→ update musing " + req.body.id);
@@ -164,7 +196,7 @@ async function listMusings(params) {
   const files = fs
     .readdirSync(musingFolder)
     .filter(
-      file =>
+      (file) =>
         file.indexOf(".") !== 0 &&
         file !== musingFolder &&
         file !== "index.md" &&
@@ -173,19 +205,20 @@ async function listMusings(params) {
     )
     .sort()
     .reverse()
-    .map(file => {
+    .map((file) => {
       const content = fs.readFileSync(musingFolder + "/" + file, "utf8");
       const user = getMeta(content, "user");
       const branch = getMeta(content, "branch");
       const created = getMeta(content, "date");
       const commit = getMeta(content, "commit");
+      const title = getMeta(content, "title");
       const id = file.substring(0, file.indexOf("-"));
-      return { id, file, user, created, branch, content, commit };
+      return { id, title, file, user, created, branch, content, commit };
     });
 
   return files;
 }
-app.get("/musings", async function(req, res) {
+app.get("/musings", async function (req, res) {
   if (rightPlace()) {
     const musings = await listMusings(req.query);
     clog("← get " + musings.length + " musings");
@@ -211,7 +244,7 @@ async function getSingleMusing(timestamp) {
     return null;
   }
 }
-app.get("/musings/:timestamp", async function(req, res) {
+app.get("/musings/:timestamp", async function (req, res) {
   if (rightPlace()) {
     const musing = await getSingleMusing(req.params.timestamp);
     if (musing) {
@@ -227,7 +260,7 @@ app.get("/musings/:timestamp", async function(req, res) {
   }
 });
 
-app.get("/commits", async function(req, res) {
+app.get("/commits", async function (req, res) {
   if (rightPlace()) {
     const gitlog = require("gitlog"); //https://www.npmjs.com/package/gitlog
 
@@ -236,7 +269,7 @@ app.get("/commits", async function(req, res) {
       number: 20,
       // , author: 'Gabriel Crowe'
       fields: ["hash", "abbrevHash", "subject", "authorName", "authorDateRel"],
-      execOptions: { maxBuffer: 1000 * 1024 }
+      execOptions: { maxBuffer: 1000 * 1024 },
     };
 
     clog("← commits requested");
@@ -256,7 +289,7 @@ async function readPackageJson() {
   );
   return packageObject;
 }
-app.get("/package", async function(req, res) {
+app.get("/package", async function (req, res) {
   if (rightPlace()) {
     try {
       clog("← package requested");
@@ -272,7 +305,7 @@ app.get("/package", async function(req, res) {
 });
 
 // local debug
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Museful local server started. http://localhost:3000");
 });
 

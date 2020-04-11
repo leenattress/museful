@@ -2,9 +2,8 @@
 [meta-date]: <> (2020-03-30T09:58:12.225Z)
 [meta-branch]: <> (master)
 [meta-commit]: <> (none)
-[meta-user]: <> (Gabriel Crowe)
-
-# being opinionated
+[meta-user]: <> (Lee Nattress)
+[meta-title]: <> (Being opinionated)
 
 Sometimes I find myself pushing my opinions of those who might use my software. In this case, I'm expecting them to write thoughtful musings on a project.
 

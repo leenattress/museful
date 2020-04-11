@@ -20,6 +20,7 @@
     "@forevolve/bootstrap-dark": "^1.0.0-alpha.937",
     "bootstrap": "^4.4.1",
     "dayjs": "^1.8.23",
+    "git-user-email": "^0.2.2",
     "highlight.js": "^9.18.1",
     "marked": "^0.8.2",
     "sirv-cli": "^0.4.4",

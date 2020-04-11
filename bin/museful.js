@@ -82,7 +82,7 @@ function render(node, inFolder, outFolder, siteConfig) {
         //get the meta info from this file
         let metaDate = getMeta(contents, "date");
         let metaUser = getMeta(contents, "user");
-        // let metaTitle = getMeta(contents, "title");
+        let metaTitle = getMeta(contents, "title");
         let metaFeaturedImage = getMeta(contents, "featured");
 
         // we need a date, a title and an author for a page to be returned
@@ -95,7 +95,7 @@ function render(node, inFolder, outFolder, siteConfig) {
 
           // add to the page array
           pages.push({
-            pageTitle: "CHANGE ME",
+            pageTitle: metaTitle,
             pageDate: metaDate,
             pageContent: htmlResult,
             pageLink: filename,
