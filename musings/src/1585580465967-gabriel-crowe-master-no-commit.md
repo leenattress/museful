@@ -3,7 +3,6 @@
 [meta-branch]: <> (master)
 [meta-commit]: <> (none)
 [meta-user]: <> (Lee Nattress)
-[meta-featured]: <> (assets/images/bg-7.gif)
 [meta-title]: <> (window.setTimeout madness)
 
 Honestly, I hate using it, it seems to be outdated and hacky, but sometimes frameworks dont do updates immediately, and this is a require hack.
