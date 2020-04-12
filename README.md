@@ -53,11 +53,11 @@ museful build
 
 ## Features
 
-- Create a timeline of thouhgs, or discussion inside your project
+- Create a timeline of thoughts, or discussion inside your project
 - Content is markdown text
-- Easily edit with a simple web interface, or in your favourite markdown, text editor or development IDE
+- Easily edit with the provided web interface, or in your favourite markdown, text editor or development IDE
 - Generate a website for public (or team) to read.
-- No database, all markdown
+- No database, very simple to set up and use
 - Super simple single command: `museful`
 - Musings are committed along with code for review
 
