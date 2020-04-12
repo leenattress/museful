@@ -29,7 +29,7 @@ npm i museful -g
 
 ## Add to Project
 
-To get started, add a musings folder to your project. This command must be typed in the root of your project, where your `package.json` lives.
+To get started, add a `musings` folder to your project. This command must be typed in the root of your project, where your `package.json` lives.
 
 ```sh
 museful init
