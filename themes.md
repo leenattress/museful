@@ -21,7 +21,7 @@ Each markdown you'll notice has some metadata at the top. This is not rendered a
 
 You can access the data like this: `{{siteConfig.title}}` or `{{siteConfig.url}}`.
 
-## musings.json
+## museful.json
 
 A typical config file might look something like this:
 
@@ -42,7 +42,7 @@ A typical config file might look something like this:
 
 ```
 
-Since this object is passed into every theme, it's a boog place to put things like analytics keys.
+Since this object is passed into every theme, it's a good place to put things like analytics keys.
 
 > ⚠ Do not put anything private here, consider this file public ⚠
 
