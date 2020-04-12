@@ -75,6 +75,14 @@ We add a single folder called musings, and everything is inside. We keep a confi
 - Super simple single command: `museful`
 - Musings are committed along with code for review
 
+## Themes
+
+To learn more about changing the look of your public facing `musings` check this short themes guide out:
+
+[Learn more about museful themes](themes.md)
+
+---
+
 ![images\museful-markdown.png](museful-markdown.png)
 
 ## Current Project State
