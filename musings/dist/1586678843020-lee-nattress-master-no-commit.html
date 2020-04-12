@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title> | museful code blogging</title>
+    <title>Refactoring | museful code blogging</title>
     <meta name="author" content="" />
     <link rel="stylesheet" href="assets/css/bootstrap-theme.css?v=1.0" />
     <link rel="stylesheet" href="assets/css/styles.css?v=1.0" />
@@ -76,8 +76,7 @@
                     0px 0px 6px rgba(0, 0, 0, 1);
                 "
               >
-                
-                Flat Files Instead Of A Database 
+                 Refactoring 
               </h1>
               
               <h5
@@ -87,7 +86,7 @@
                     0px 0px 6px rgba(0, 0, 0, 1);
                 "
               >
-                On Saturday, March 28th 2020, 6:36:51 pm
+                On Sunday, April 12th 2020, 8:07:23 am
                 <small class="text-white">by Lee Nattress</small>
               </h5>
               
@@ -99,50 +98,27 @@
 
     <div class="container">
       <div class="row">
-        
-        <style>
-          .content-container h1:first-of-type {
-            display: none;
-          }
-        </style>
-        
+         
 
         <div class="simplest-content col-12 col-lg-9">
           <div class="content-container">
-            <h1>Flat files instead of a database</h1>
-<h2>What I'm working on</h2>
-<p>I'm working on the API of museful.</p>
-<h2>I've solved a problem</h2>
-<p>Reading and creating markdown files in nodejs.</p>
-<pre><code class="language-javascript">app.post(&quot;/musings&quot;, async function(req, res) {
-  try {
-    if (req.body.title &amp;&amp; req.body.content) {
-      const id = await createMusing(req.body);
-      res.json({ status: &quot;ok&quot;, id });
-    } else {
-      throw &quot;title and content are required&quot;;
-    }
-  } catch (error) {
-    res.status(500).send({ status: &quot;heck&quot;, error });
-  }
-});
-</code></pre>
-<h2>Lessons learned</h2>
-<p>It is possible to create an API that does not have a database behind it, but merely any other kind of store. In this case, I can CRUD text files that are in fact markdown.</p>
-<p>We expose this functionality though a REST api, and it looks like we are dealing with a data service or some kind, but actually, its just files.</p>
+            <p>I've spent some time refactoring the code for the various parts of the app. I've noticed in my excitement to get things working, I've made some serious spaghetti code.</p>
+<p>If I was under peer review, this would not happen, but because this is a lone project right now, and I'm in dreamer mode, it happened anyway.</p>
+<p>So let's go back and fix some of it.</p>
+<p>Firstly, and perhaps most obvious is that there are too many nested and useless branching statements. It's <em>if</em> city here.</p>
+<p>Then a few different ways of doing something, and I've made functions that do similar things in different files. Let's pull those into the same file, or at least make them unique.</p>
+<p>There are few standards in error messages, in fact, two different types of error, so let us sort that.</p>
+<p>Some of the CSS colours and theme designs and padding were not unified. Let's fix those.</p>
+<p>There are endless ways to refactor code but at some point, you'll feel more comfortable and happier with the way it feels.</p>
 
           </div>
 
           <!-- content only for homepage -->
            
           <div class="mt-4 mb-4 next-previous-buttons">
-            <a
-              class="btn btn-primary btn-lg rounded-0 float-right"
-              href="1585562292225-gabriel-crowe-master-no-commit.html"
-              >Next</a
-            > <a
+             <a
               class="btn btn-primary btn-lg rounded-0 float-left"
-              href="1585319757206-gabriel-crowe.html"
+              href="1586637228291-lee-nattress-master-no-commit.html"
               >Previous</a
             >
             <div class="clearfix"></div>

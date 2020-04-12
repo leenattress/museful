@@ -38,6 +38,14 @@ var s3 = require("s3");
 var AWS = require("aws-sdk");
 var s3EasyDeploy = require("s3-easy-deploy");
 
+async function rightPlace() {
+  return (
+    fs.existsSync(process.cwd() + "/package.json") &&
+    fs.existsSync(process.cwd() + "/musings") &&
+    fs.existsSync(process.cwd() + "/musings/museful.json")
+  );
+}
+
 function showError() {
   c(
     chalk.red(`
@@ -105,11 +113,11 @@ function getConfig() {
   } else {
     showError();
     c(chalk.red("museful config not found."));
-    c(chalk.red("It should be in the root of the project"));
-    c(chalk.red("in a folder called musings."));
+    c(chalk.red("It should be in the root of a project"));
+    c(chalk.red("where you have set up museful."));
     c(
       chalk.magenta(`${appName} init`),
-      chalk.blue(`   - Adds museful to this project`)
+      chalk.blue(`   - Adds museful to a project`)
     );
     process.exit();
   }
@@ -168,6 +176,9 @@ Try this:`)
 
   // This command creates a page with the correct headers in the input folder
   if (command === "new") {
+    const siteConfig = getConfig();
+    c(chalk.green("Creating a new musing..."), siteConfig.title);
+
     const timeNow = Date.now();
     if (!!userName()) {
       subject =
@@ -178,46 +189,12 @@ Try this:`)
           lower: true, // convert to lower case, defaults to `false`
         });
 
-      if (fs.existsSync("./musings/museful.json")) {
-        const app = require("./../api/server");
-        (async () => {
-          await open("http://localhost:3000/#/create");
-        })();
-
-        // (async () => {
-        //   await open("http://localhost:3000");
-        // })();
-        //         const now = new Date().toISOString();
-        //         const markdownContent = `
-        // [meta-date]: <> (${now})
-        // [meta-title]: <> (Page Title)
-        // [meta-branch]: <> (${git.branch})
-        // [meta-sha]: <> (${git.abbreviatedSha ? git.abbreviatedSha : "(none)"})
-        // [meta-user]: <> (${userName()})
-        // # Branch: ${git.branch}
-        // ## Commit: ${git.abbreviatedSha ? git.abbreviatedSha : "(none)"}
-        // - What part of the code are you working on now?
-        // - What problem have you just solved?
-        // - Are there any code snippets you're particularly proud of?
-        // \`\`\`want to share them?\`\`\`
-        // `;
-        //         const appDirIn = getConfig().input;
-        //         const fileName = appDirIn + "/" + subject + ".md";
-        //         if (fs.existsSync(fileName)) {
-        //           showError();
-        //           c(chalk.red("Musing already exists"));
-        //           process.exit();
-        //         }
-        //         fs.writeFileSync(fileName, markdownContent, "utf8", function(err) {
-        //           if (err) {
-        //             c(`An error occured while writing ${fileName} config to File.`);
-        //             return c(err);
-        //           }
-        //           c(chalk.green(`${subject}.md markdown created.`));
-        //         });
-      } else {
-        console.log("error: run from project root");
-      }
+      const app = require("./../api/server");
+      (async () => {
+        await open("http://localhost:3000/#/create");
+      })();
+    } else {
+      console.log("error: we could not get your git username");
     }
   }
   if (command === "deploy") {
@@ -413,6 +390,8 @@ Try this:`)
     c(chalk.green(inspiration[randomNumber]));
   }
 } else {
+  const siteConfig = getConfig();
+  c(chalk.green("Opening timeline..."), siteConfig.title);
   const app = require("./../api/server");
   (async () => {
     await open("http://localhost:3000");
