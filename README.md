@@ -1,4 +1,4 @@
-![images\header.png](header.png)
+![header.png](header.png)
 <p>
   <a href="https://www.npmjs.com/package/museful" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/museful.svg">
@@ -58,6 +58,12 @@ To build your teams musings into a website that you can deploy to a web server, 
 ```sh
 museful build
 ```
+
+## What do we add to your project?
+
+We add a single folder called musings, and everything is inside. We keep a config file called `museful.json` in there that stores some settings you can configure, as well as a theme folder that you can edit yourself.
+
+![musings-folder.png](musings-folder.png)
 
 ## Features
 
