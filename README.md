@@ -1,4 +1,4 @@
-![images\header.png](images\header.png)
+![images\header.png](header.png)
 <p>
   <a href="https://www.npmjs.com/package/museful" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/museful.svg">
@@ -61,7 +61,7 @@ museful build
 - Super simple single command: `museful`
 - Musings are committed along with code for review
 
-![images\museful-markdown.png](images\museful-markdown.png)
+![images\museful-markdown.png](museful-markdown.png)
 
 ## Current Project State
 
