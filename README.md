@@ -29,11 +29,15 @@ npm i museful -g
 
 ## Add to Project
 
+To get started, add a musings folder to your project. This command must be typed in the root of your project, where your `package.json` lives.
+
 ```sh
 museful init
 ```
 
 ## Create a musing
+
+This will start a web interface and prompt for your thoughts. You can toggle the markdown preview here and then save to your `musings` folder by pressing the button at the bottom. Your musing will be saved to `/musings/src`.
 
 ```sh
 museful new
@@ -41,11 +45,15 @@ museful new
 
 ## See Timeline
 
+You can view all the musings from all the members of your team here. A browser window will open to the _timeline_.
+
 ```sh
 museful
 ```
 
 ## Build for CI/CD
+
+To build your teams musings into a website that you can deploy to a web server, run this command. It will give you a report on how it all went. Your site will be built into `/musings/dist`.
 
 ```sh
 museful build
