@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>What is museful? | museful code blogging</title>
+    <title>Why museful exists | museful code blogging</title>
     <meta name="author" content="" />
     <link rel="stylesheet" href="assets/css/bootstrap-theme.css?v=1.0" />
     <link rel="stylesheet" href="assets/css/styles.css?v=1.0" />
@@ -76,7 +76,7 @@
                     0px 0px 6px rgba(0, 0, 0, 1);
                 "
               >
-                 What is museful? 
+                 Why museful exists 
               </h1>
               
               <h5
@@ -86,7 +86,7 @@
                     0px 0px 6px rgba(0, 0, 0, 1);
                 "
               >
-                On Sunday, April 12th 2020, 12:26:39 pm
+                On Monday, April 13th 2020, 12:42:12 pm
                 <small class="text-white">by Lee Nattress</small>
               </h5>
               
@@ -102,35 +102,34 @@
 
         <div class="simplest-content col-12 col-lg-9">
           <div class="content-container">
-            <h2>Bigger than Commit Messages</h2>
-<p>When a developer is committing code to a repository, especially with a team, they will push their work as collections of commits. These have timestamps and a description. They are used to describe what happened since the last commit, so other developers can see the timeline of things unfolding.</p>
-<p>The problem is that developers (myself included) make terrible commit messages, and worse, they are so far apart that it's not possible to describe the changes in a meaningful way.</p>
-<p>What I wanted to do was talk in-depth about the things I had created, engineered or changed in a project. Something bigger than the commit messages.</p>
-<p>In museful, when you create a new musing, your current branch, commit and username get stored in the file as well. We can then use this meta-data to build a website, rich with information, from a stream of musings I called, the timeline.</p>
-<p>This can be done in any project with a <code>package.json</code> file. Any developers can contribute, at any time, thoughts about their work and their reasoning.</p>
-<p>Since these musings are markdown files and they are now present in the source, the musings follow the source, and they are up for both peer review and consumption. Other developers can read your musings as they review pull requests.</p>
-<p>They can also be collated into a simple blog type website and consumed by a wider audience, such as fanatical followers of your software.</p>
-<p>Blogging from inside a project.</p>
-<p>I hope this explains what museful is, but who can use it.</p>
-<h2>Who is this for?</h2>
-<p>Well, for starters, developers who need to talk about the parts of development they are currently part of. The challenges they have solved and the problems they face so that others might learn from their success or failure.</p>
-<p>A tester might talk about the part of the application they are testing today, or scripts they are writing, or techniques they are using.</p>
-<p>A business analyst might write about how the application is unfolding and the reasoning behind any features they require.</p>
-<p>There is a lot of discussions and thoughts flying around during a project. Some of them can be used to guide the software, your team, or even the company.</p>
-<p>So let's get them out of our heads, and into our repo.</p>
+            <p>Making software is documented all over the place, all the different strategies, and techniques, all the languages, and methodologies.</p>
+<p>They all share a commonality, and this is, the source code, is stored somewhere. The code that builds the product. It's either compiled, or it runs just in time, or a mixture of both. One thing is for certain, you keep it in git, or subversion, or mercurial.</p>
+<p>Sometimes you even work as a team on the same project, or a project owner is a lone warrior.</p>
+<p>If you work as a team then you could do peer reviews. Whatever your version control system calls it, when you want to merge your code into somewhere meaningful, people would inspect it for errors and issues.</p>
+<p>This isn't something new, it has been this way for a very long time.</p>
+<p>When code is committed to version control, you usually comment on what you did. Me? I'm terrible at this. My comments are brief and don't cover all the points, mainly because for some reason, pushing the code up there is just some time-consuming punishment, or something let over to do after the meat of actually writing code.</p>
+<p>So what might happen if I had more space to write, and that writing something was a ritual, and something meaningful that I know more people might read?</p>
+<p>If I knew that the things I might write would be taken in by others and that real worth might be derived from my thoughts as I code it's possible I might be inclined to share my thoughts, ideas, and discoveries, as well as failures.</p>
+<p>If I know they would be useful.</p>
+<p>Commit messages are not enough for me. I want to show you images and diagrams, I want to show you HTML snippets and a clever function I used.</p>
+<p>Where is the place for that? A wiki? Confluence?</p>
+<p>These are places outside the project. They are disconnected by being in separate systems. No, I need something inside the project itself. I want to keep my discussion, my dreamings, with the project like a treasure trove for further engineers to discover, or even share my revelations with the user, so they can see my insights and the reasons I did this thing, this way.</p>
+<p>I created museful for this.</p>
+<p>museful is a terminal application written in javascript. You can install it trivially with npm, and it will help you get the ideas out of your head and into the minds of other dreamers.</p>
+<p>It provides a browser interface to both reads and creates text documents, formatted with markdown (and HTML) that live inside your version control repository. When you commit your code and submit a pull request, your new thoughts will be alongside the code. People will be able to read why you did something this way.</p>
+<p>museful provides a way to build the musings into a web site, that you can deploy any place you choose (or simply don't, it's your call). You can make your team's skills and ideas public, to excite fanatical fans. Keeping users in the loop is a very powerful tool.</p>
+<p>museful has a load of clever features like theming and markdown previews and all that, but it's all down to the idea, that this 'blog' of sorts will run concurrently with your source code. We even tag the musings with the current branch and commit hash.
+This timeline will stay with the software.
+I hope this explains why I made museful and why I want you to try it in your project. Set aside sometime before your pull request to write about what you did. Maybe somebody might learn something from you, and this is amazing.</p>
 
           </div>
 
           <!-- content only for homepage -->
            
           <div class="mt-4 mb-4 next-previous-buttons">
-            <a
-              class="btn btn-primary btn-lg rounded-0 float-right"
-              href="1586764826996-lee-nattress-master-no-commit.html"
-              >Next</a
-            > <a
+             <a
               class="btn btn-primary btn-lg rounded-0 float-left"
-              href="1586678843020-lee-nattress-master-no-commit.html"
+              href="1586764826996-lee-nattress-master-no-commit.html"
               >Previous</a
             >
             <div class="clearfix"></div>
