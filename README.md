@@ -53,11 +53,23 @@ museful
 
 ## Build for CI/CD
 
-To build your teams musings into a website that you can deploy to a web server, run this command. It will give you a report on how it all went. Your site will be built into `/musings/dist`.
-
 ```sh
 museful build
 ```
+
+To build your teams musings into a website that you can deploy to a web server, run this command. It will give you a report on how it all went. Your site will be built into `/docs` by default, but you easily change this in your `museful.json`. This is a comfortable place for [GitHub Pages](https://pages.github.com/) because it means you can deploy this to the web with a couple of clicks.
+
+![github pages helper image](readme-github-pages.png)
+
+Of course you can use:
+
+- [AWS s3](https://github.com/import-io/s3-deploy)
+- [Zeit Now](https://zeit.co/)
+- [Surge.sh](https://surge.sh/)
+
+Whichever suits your taste for hoisting _static content_.
+
+The musings from this very project are stored here: __[https://leenattress.github.io/museful/](https://leenattress.github.io/museful/)__
 
 ## What do we add to your project?
 

@@ -34,9 +34,9 @@ A typical config file might look something like this:
   "themeData": {
     "headerOverlayColour": "rgba(7, 54, 66, 0.6)",
     "primaryColour": "rgba(7, 54, 66, 0.6)",
-    "projectLogo": "assets/images/project-logo.png"
+    "projectLogo": "assets/images/logo.png"
   },
-  "output": "musings/dist",
+  "output": "docs",
   "input": "musings/src"
 }
 

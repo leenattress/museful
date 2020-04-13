@@ -7,7 +7,7 @@
   "themeData": {
     "headerOverlayColour": "rgba(7, 54, 66, 0.8)",
     "primaryColour": "#142738",
-    "projectLogo": "assets/images/project-logo.png"
+    "projectLogo": "assets/images/logo.png"
   },
   "output": "docs",
   "input": "musings/src",
