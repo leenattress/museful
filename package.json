@@ -1,6 +1,6 @@
 {
   "name": "museful",
-  "version": "0.0.15",
+  "version": "0.1.15",
   "description": "Minimal markdown blog builder.",
   "main": "bin/index.js",
   "scripts": {
