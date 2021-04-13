@@ -27,7 +27,7 @@
     "git-repo-info": "^2.1.1",
     "git-user-email": "^0.2.2",
     "git-user-name": "^2.0.0",
-    "gitlog": "^3.2.0",
+    "gitlog": "^4.0.4",
     "glob": "^7.1.6",
     "markdown-it": "^9.0.0",
     "markdown-it-attrs": "^3.0.1",
