@@ -29,7 +29,7 @@
     "git-user-name": "^2.0.0",
     "gitlog": "^3.2.0",
     "glob": "^7.1.6",
-    "markdown-it": "^9.0.0",
+    "markdown-it": "^12.3.2",
     "markdown-it-attrs": "^3.0.1",
     "md5": "^2.2.1",
     "mkdirp": "^1.0.4",
